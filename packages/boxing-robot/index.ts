@@ -8,5 +8,6 @@ const board = new five.Board({
 
 
 board.on('ready', function () {
-  testServo()
+  const servo = testServo()
+  board.repl.inject({servo})
 })
