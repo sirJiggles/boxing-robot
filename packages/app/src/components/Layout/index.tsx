@@ -1,8 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react'
-// import 'braid-design-system/reset'
-import jobStreetTheme from 'braid-design-system/themes/jobStreet'
-import { BraidProvider } from 'braid-design-system'
+import { Provider as PaperProvider } from 'react-native-paper'
 import { StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native'
+import { theme } from './theme'
 
 type LayoutProps = {
   children: ReactNode
@@ -10,11 +9,11 @@ type LayoutProps = {
 
 export const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   return (
-    <BraidProvider theme={jobStreetTheme}>
+    <PaperProvider theme={theme}>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>{children}</ScrollView>
       </SafeAreaView>
-    </BraidProvider>
+    </PaperProvider>
   )
 }
 

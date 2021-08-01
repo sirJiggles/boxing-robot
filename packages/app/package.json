@@ -1,12 +1,16 @@
 {
   "name": "@boxing-robot/app",
   "version": "1.0.0",
+  "author": "Gareth Fuller",
+  "license": "Apache-2.0",
+  "private": false,
   "dependencies": {
-    "braid-design-system": "^30.2.2",
     "expo": "~42.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-paper": "^4.9.2",
+    "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
@@ -22,6 +26,5 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject"
-  },
-  "private": false
+  }
 }

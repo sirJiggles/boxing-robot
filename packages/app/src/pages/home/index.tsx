@@ -1,18 +1,20 @@
 import React, { FunctionComponent } from 'react'
 import { View, StyleSheet } from 'react-native'
+import { Button } from 'react-native-paper'
 import { Layout } from '../../components/Layout'
-import { Button, Text } from 'braid-design-system'
 
 export const Home: FunctionComponent = () => {
   return (
     <Layout>
       <View style={styles.buttonWrapper}>
         <Button
-          onClick={() => {
+          onPress={() => {
             alert('you pressed me!')
           }}
+          mode='contained'
+          icon='send-circle'
         >
-          <Text>Click me baby</Text>
+          Click me baby!
         </Button>
       </View>
     </Layout>
