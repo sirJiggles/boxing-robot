@@ -14,7 +14,9 @@
     "lint": "eslint '**/*.{js,ts}' --fix"
   },
   "dependencies": {
-    "johnny-five": "^2.0.0",
+    "johnny-five": "^2.0.0"
+  },
+  "optionalDependencies": {
     "raspi-io": "^11.0.0"
   },
   "devDependencies": {
