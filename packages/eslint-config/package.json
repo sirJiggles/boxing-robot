@@ -1,5 +1,5 @@
 {
-  "name": "@boxingrobot/eslint-config",
+  "name": "@boxing-robot/eslint-config",
   "version": "1.0.0",
   "description": "Eslint rules for the monorepo",
   "main": "index.js",
