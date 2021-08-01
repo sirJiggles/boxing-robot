@@ -1,5 +1,17 @@
+import * as aws from '@pulumi/aws'
+
 const program = () => {
   // do the infra
-};
+  const topic = new aws.sns.Topic('mytopic')
 
-export default program;
+  const topicSubscription = new aws.sns.TopicSubscription(
+    'mytopicsubscription',
+    {
+      topic,
+      protocol: 'sqs',
+      endpoint: queue.arn,
+    }
+  )
+}
+
+export default program
