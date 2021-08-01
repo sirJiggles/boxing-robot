@@ -3,10 +3,11 @@
   "author": "Gareth Fuller",
   "license": "Apache-2.0",
   "description": "A robot that will take hits at me",
-  "private": true,
+  "private": false,
   "scripts": {
     "lint": "lerna run lint --parallel",
-    "start": "cd packages/boxing-robot && yarn start"
+    "bot": "cd packages/robot && yarn start",
+    "app": "cd packages/app && yarn start"
   },
   "devDependencies": {
     "lerna": "^4.0.0"

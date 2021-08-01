@@ -3,5 +3,5 @@
   "compilerOptions": {
     "outDir": "dist/"
   },
-  "include": ["src/**/*", "index.ts", "jira.d.ts"]
+  "include": ["src/**/*", "index.ts"]
 }

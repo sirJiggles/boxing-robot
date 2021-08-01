@@ -1,5 +1,5 @@
 {
-  "name": "@boxingrobot/boxing-robot",
+  "name": "@boxingrobot/robot",
   "version": "1.0.0",
   "description": "The package containing the boxing robot",
   "main": "dist/index.js",
