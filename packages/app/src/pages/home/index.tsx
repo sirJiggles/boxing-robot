@@ -1,29 +1,24 @@
 import React, { FunctionComponent } from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Button } from 'react-native-paper'
+import { Button, Card } from 'react-native-paper'
 import { Layout } from '../../components/Layout'
 
 export const Home: FunctionComponent = () => {
   return (
     <Layout>
-      <View style={styles.buttonWrapper}>
-        <Button
-          onPress={() => {
-            alert('you pressed me!')
-          }}
-          mode='contained'
-          icon='send-circle'
-        >
-          Click me baby!
-        </Button>
-      </View>
+      <Card>
+        <Card.Title title='Start a workout' />
+        <Card.Content>
+          <Button
+            onPress={() => {
+              alert('you pressed me!')
+            }}
+            mode='contained'
+            icon='send-circle'
+          >
+            Send event
+          </Button>
+        </Card.Content>
+      </Card>
     </Layout>
   )
 }
-
-const styles = StyleSheet.create({
-  buttonWrapper: {
-    width: '100%',
-    height: '20px',
-  },
-})
