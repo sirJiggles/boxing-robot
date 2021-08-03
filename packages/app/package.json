@@ -6,6 +6,7 @@
   "private": false,
   "dependencies": {
     "@aws-sdk/client-sns": "^3.24.0",
+    "@boxing-robot/infra": "^1.0.0",
     "expo": "~42.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",

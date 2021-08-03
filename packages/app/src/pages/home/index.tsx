@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from 'react'
-import { Button, Card } from 'react-native-paper'
-import { Layout } from '../../components/Layout'
+import React, { FunctionComponent } from 'react';
+import { Button, Card } from 'react-native-paper';
+import { Layout } from '../../components/Layout';
 
-import { SNSClient, AddPermissionCommand } from '@aws-sdk/client-sns'
-const client = new SNSClient({ region: 'eu-central-1' })
+import { SNSClient, AddPermissionCommand } from '@aws-sdk/client-sns';
+const client = new SNSClient({ region: 'eu-central-1' });
 const command = new AddPermissionCommand({
   AWSAccountId: process.env.AWS_ACCOUNT_ID || '',
   TopicArn: process.env.TOPIC_ARN || '',
-})
+});
 
 export const Home: FunctionComponent = () => {
   return (
@@ -17,7 +17,7 @@ export const Home: FunctionComponent = () => {
         <Card.Content>
           <Button
             onPress={() => {
-              alert('you pressed me!')
+              alert('you pressed me!');
             }}
             mode='contained'
             icon='send-circle'
@@ -27,5 +27,5 @@ export const Home: FunctionComponent = () => {
         </Card.Content>
       </Card>
     </Layout>
-  )
-}
+  );
+};
