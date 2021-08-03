@@ -6,7 +6,8 @@
   "private": false,
   "dependencies": {
     "@aws-sdk/client-sns": "^3.24.0",
-    "@boxing-robot/infra": "^1.0.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "cross-env": "^7.0.3",
     "expo": "~42.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -24,11 +25,11 @@
     "typescript": "~4.0.0"
   },
   "scripts": {
-    "configure": "node configure.js",
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "yarn configure | expo start --web",
+    "config": "node configure.js",
+    "start": "node configure.js | expo start",
+    "android": "node configure.js | expo start --android",
+    "ios": "node configure.js | expo start --ios",
+    "web": "node configure.js | expo start --web --clear",
     "eject": "expo eject"
   }
 }

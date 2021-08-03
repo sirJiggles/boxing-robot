@@ -1,15 +1,23 @@
 // this script is used to grab the env vars from the pulumi stack output
 // then pass the needed configuration on to the front end when doing things
 // like running and so on
-const exposedInfra = require('@boxing-robot/infra/src/expose');
+// const exposedInfra = require('@boxing-robot/infra/src/expose');
 
-// get a handle to the stack
-const stack = exposedInfra.getStack('dev');
+const { execSync } = require('child_process')
 
-// get the things we care about, out the stack
-const topicArn = stack.getOutput('frontEndTopicArn');
-const thing = stack.getOutput('thing');
+const stackOutput = JSON.parse(
+  execSync(
+    `pulumi stack output --cwd ../infra --stack ${
+      process.env.stack || 'dev'
+    } --json`
+  )
+)
 
-// put the output from the stack on the console in a format for
-// env args
-console.log(`TOPIC_ARN=${topicArn} AWS_ACCOUNT_ID=${awsAccountId}`);
+// go through the stack out json and make a env var structure we can pipe to
+// our application
+console.log('REACT_NATIVE_THING=howsitgoing')
+// console.log(
+//   Object.entries(stackOutput)
+//     .map(([key, value]) => `${key}=${value}`)
+//     .join(' ')
+// )

@@ -1,36 +1,10 @@
-# TypeScript Example
+# What
 
-<p>
-  <!-- iOS -->
-  <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-  <!-- Android -->
-  <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-  <!-- Web -->
-  <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-4630EB.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
-</p>
+This is just the app that is used to send events that the bot will listen too. This is done by sns + sqs
 
-```sh
-npx create-react-native-app -t with-typescript
-```
+## Configuration
 
-TypeScript is a superset of JavaScript which gives you static types and powerful tooling in Visual Studio Code including autocompletion and useful inline warnings for type errors.
+When building the app there is a node scripts that will get the stack output of the infra and pipe it as env vars to the expo scripts. This is not ideal as it uses relative paths to the infra package and it means you need to deploy the infra to get a new stack output before running the app. However it does mean you can manage all the secrets and get access to env vars like stack output arns really simply which is pretty awesome
+.
 
-## 🚀 How to use
-
-#### Creating a new project
-
-- Install the CLI: `npm i -g expo-cli`
-- Create a project: `npx create-react-native-app -t with-typescript`
-- `cd` into the project
-
-### Adding TypeScript to existing projects
-
-- Create a blank TypeScript config: `touch tsconfig.json`
-- Run `expo start` to automatically configure TypeScript
-- Rename files to TypeScript, `.tsx` for React components and `.ts` for plain typescript files
-
-> 💡 You can disable the TypeScript setup in Expo CLI with the environment variable `EXPO_NO_TYPESCRIPT_SETUP=1 expo start`
-
-## 📝 Notes
-
-- [Expo TypeScript guide](https://docs.expo.io/versions/latest/guides/typescript/)
+Clear is required in the yarn scripts to clear the cache and make the env vars work ...
