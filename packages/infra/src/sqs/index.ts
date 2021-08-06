@@ -17,12 +17,7 @@ const sqsQueuePolicy = (
           "Effect": "Allow",
           "Principal": "*",
           "Action": ["sqs:SendMessage", "sqs:ReceiveMessage"],
-          "Resource": "${queue.arn}",
-          "Condition": {
-            "ArnEquals": {
-              "aws:SourceArn": "${topic.arn}"
-            }
-          }
+          "Resource": "${queue.arn}"
         }
       ]
     }

@@ -9,11 +9,15 @@
   "scripts": {
     "package": "rm -rf dist && yarn build && cp package.json dist/ && cd dist && npm install --production",
     "build": "tsc -p .",
-    "start": "yarn build && yarn execute",
+    "configure": "node configure.js",
+    "start": "yarn configure && yarn build && yarn execute",
     "execute": "node dist/index.js",
+    "dev": "ts-node -O '{\"module\":\"commonjs\"}' index.ts",
     "lint": "eslint '**/*.{js,ts}' --fix"
   },
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.25.0",
+    "dotenv": "^10.0.0",
     "johnny-five": "^2.0.0"
   },
   "optionalDependencies": {

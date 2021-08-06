@@ -34,6 +34,7 @@ const program = () => {
     region: pulumi.output(aws.getRegion()).name,
     secretAccessKey: pulumi.output(accessKey.secret),
     accessKeyId: pulumi.output(accessKey.id),
+    queueUrl: pulumi.output(boxingEventsQueue.id),
   }
 }
 
