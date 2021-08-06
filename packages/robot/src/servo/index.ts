@@ -9,15 +9,17 @@ export const arms = [
 
 // reset the arms if there is an error
 export const resetArms = () => {
-  arms.forEach((arm) => {
-    back(arm)
+  arms.forEach((_, index) => {
+    back(index)
   })
 }
 
-export const back = (arm: Servo) => {
-  arm.to(180)
+export const back = (arm: number) => {
+  console.log(`arm ${arm} out`)
+  arms[arm].to(180)
 }
 
-export const out = (arm: Servo) => {
-  arm.to(0)
+export const out = (arm: number) => {
+  console.log(`arm ${arm} in`)
+  arms[arm].to(180)
 }

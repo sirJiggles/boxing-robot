@@ -4,3 +4,11 @@ export type Config = {
   secretAccessKey: string
   queueUrl: string
 }
+
+export type MessagePayload = {
+  Body: string
+}
+
+export type MessageBody = {
+  Message: string
+}
