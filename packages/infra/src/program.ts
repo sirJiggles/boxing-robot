@@ -13,12 +13,12 @@ const program = () => {
   // This is the topic we will post to and listen to
   const boxingTopic = snsTopic('boxingTopic')
 
-  // with this subscription the front end can push events of this topic to this queue
-  snsSqsSubscription('frontEndSubscription', boxingTopic, boxingEventsQueue.arn)
-
-  // make another topic for the robot to listen to events
-  // it should remove events once they are polled
-  snsSqsSubscription('robotToSNS', boxingTopic, boxingEventsQueue.arn)
+  // with this subscription messages of the boxing topic will go to the sns queue
+  snsSqsSubscription(
+    'topicToQueueSubscription',
+    boxingTopic,
+    boxingEventsQueue.arn
+  )
 
   // now we have both the sns and the sqs set up
   // we need to allow the sns to send the sqs queue events like so
