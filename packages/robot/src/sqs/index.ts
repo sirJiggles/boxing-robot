@@ -1,9 +1,7 @@
 import { Config } from '../types'
 import { Consumer } from 'sqs-consumer'
-import { Servo } from 'johnny-five'
 import AWS from 'aws-sdk'
 import https from 'https'
-import { back } from '../servo'
 
 const { region, accessKeyId, secretAccessKey, queueUrl } = process.env as Config
 
@@ -13,24 +11,14 @@ AWS.config.update({
   secretAccessKey,
 })
 
-// reset the arms if there is an error
-const resetArms = (arms: Servo[]) => {
-  arms.forEach((arm) => {
-    back(arm)
-  })
-}
-
-const handleError = (err: Error, arms?: Servo[]) => {
-  if (arms) {
-    resetArms(arms)
-  }
+const handleError = (err: Error) => {
   console.error(err.message)
   throw err
 }
 
 export const createSQSListeningApp = (
   onMessage: (message: any) => void,
-  arms?: Servo[]
+  onError: () => void
 ) => {
   const app = Consumer.create({
     region,
@@ -48,11 +36,13 @@ export const createSQSListeningApp = (
   })
 
   app.on('error', (err) => {
-    handleError(err, arms)
+    onError()
+    handleError(err)
   })
 
   app.on('processing_error', (err) => {
-    handleError(err, arms)
+    onError()
+    handleError(err)
   })
 
   return app
