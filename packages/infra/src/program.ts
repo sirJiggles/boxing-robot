@@ -1,5 +1,8 @@
 import { sqsQueue, sqsQueuePolicy } from './sqs'
 import { snsSqsSubscription, snsTopic } from './sns'
+import * as pulumi from '@pulumi/pulumi'
+import * as aws from '@pulumi/aws'
+import { sqsUser } from './iam'
 
 const program = () => {
   // make a queue for the robot to poll, we can add more
@@ -21,10 +24,16 @@ const program = () => {
   // we need to allow the sns to send the sqs queue events like so
   sqsQueuePolicy('boxingSNSPolicy', boxingEventsQueue, boxingTopic)
 
+  // we need to make a user in the aws account, this user can then post and subscribe to
+  // the topic
+  const accessKey = sqsUser('sqsUser')
+
   // what do we want to output from the stack
   return {
     boxingTopicArn: boxingTopic.arn,
-    thing: 'something',
+    region: pulumi.output(aws.getRegion()).name,
+    secretAccessKey: pulumi.output(accessKey.secret),
+    accessKeyId: pulumi.output(accessKey.id),
   }
 }
 

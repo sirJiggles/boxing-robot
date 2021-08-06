@@ -4,7 +4,7 @@ import * as pulumi from '@pulumi/pulumi'
 const sqsQueuePolicy = (
   name: string,
   queue: aws.sqs.Queue,
-  topic: aws.sns.Topic,
+  topic: aws.sns.Topic
 ) => {
   return new aws.sqs.QueuePolicy(name, {
     queueUrl: queue.id,
@@ -16,7 +16,7 @@ const sqsQueuePolicy = (
           "Sid": "First",
           "Effect": "Allow",
           "Principal": "*",
-          "Action": "sqs:SendMessage",
+          "Action": ["sqs:SendMessage", "sqs:ReceiveMessage"],
           "Resource": "${queue.arn}",
           "Condition": {
             "ArnEquals": {

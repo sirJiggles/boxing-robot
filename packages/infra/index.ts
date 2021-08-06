@@ -4,4 +4,4 @@ import program from './src/program'
 const output = program()
 
 // stack outputs
-export const { boxingTopicArn, thing } = output
+export const { boxingTopicArn, region, secretAccessKey, accessKeyId } = output
