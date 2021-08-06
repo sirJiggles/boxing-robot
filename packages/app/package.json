@@ -4,10 +4,10 @@
   "author": "Gareth Fuller",
   "license": "Apache-2.0",
   "private": false,
+  "type": "module",
   "dependencies": {
     "@aws-sdk/client-sns": "^3.24.0",
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
     "expo": "~42.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -26,10 +26,11 @@
   },
   "scripts": {
     "config": "node configure.js",
-    "start": "node configure.js | expo start",
-    "android": "node configure.js | expo start --android",
-    "ios": "node configure.js | expo start --ios",
-    "web": "node configure.js | expo start --web --clear",
+    "start": "yarn run config && expo start --clear",
+    "android": "yarn run config && expo start --android --clear",
+    "ios": "yarn run config && expo start --ios --clear",
+    "web": "yarn run config && expo start --web --clear",
+    "webBare": "expo start --web --clear",
     "eject": "expo eject"
   }
 }
