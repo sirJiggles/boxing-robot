@@ -14,11 +14,7 @@ const program = () => {
   const boxingTopic = snsTopic('boxingTopic')
 
   // with this subscription messages of the boxing topic will go to the sns queue
-  snsSqsSubscription(
-    'topicToQueueSubscription',
-    boxingTopic,
-    boxingEventsQueue.arn
-  )
+  snsSqsSubscription('queueSubscription', boxingTopic, boxingEventsQueue.arn)
 
   // now we have both the sns and the sqs set up
   // we need to allow the sns to send the sqs queue events like so

@@ -16,9 +16,10 @@
     "lint": "eslint '**/*.{js,ts}' --fix"
   },
   "dependencies": {
-    "@aws-sdk/client-sqs": "^3.25.0",
+    "aws-sdk": "^2.962.0",
     "dotenv": "^10.0.0",
-    "johnny-five": "^2.0.0"
+    "johnny-five": "^2.0.0",
+    "sqs-consumer": "^5.5.0"
   },
   "optionalDependencies": {
     "raspi-io": "^11.0.0"

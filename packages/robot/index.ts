@@ -4,34 +4,76 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-import { SQSClient, ReceiveMessageCommand } from '@aws-sdk/client-sqs'
+// import { SQSClient, ReceiveMessageCommand, Message } from '@aws-sdk/client-sqs'
 import { Config } from './src/types'
+import { Consumer } from 'sqs-consumer'
+import AWS from 'aws-sdk'
+import https from 'https'
 
 const { region, accessKeyId, secretAccessKey, queueUrl } = process.env as Config
 
-const client = new SQSClient({
+// const client = new SQSClient({
+//   region,
+//   credentials: {
+//     accessKeyId,
+//     secretAccessKey,
+//   },
+// })
+
+// const command = new ReceiveMessageCommand({
+//   QueueUrl: queueUrl,
+// })
+
+AWS.config.update({
   region,
-  credentials: {
-    accessKeyId,
-    secretAccessKey,
+  accessKeyId,
+  secretAccessKey,
+})
+
+const app = Consumer.create({
+  region,
+  queueUrl,
+  handleMessage: async (message) => {
+    console.log(JSON.parse(message.Body).Message)
   },
+  sqs: new AWS.SQS({
+    httpOptions: {
+      agent: new https.Agent({
+        keepAlive: true,
+      }),
+    },
+  }),
 })
 
-const command = new ReceiveMessageCommand({
-  QueueUrl: queueUrl,
+app.on('error', (err) => {
+  console.error(err.message)
 })
 
-const runIt = async () => {
-  try {
-    const data = await client.send(command)
-    console.log(data)
-  } catch (err) {
-    console.log(err)
-    throw new Error(err)
-  }
-}
+app.on('processing_error', (err) => {
+  console.error(err.message)
+})
 
-runIt()
+app.start()
+
+// const handleMessage = (messages: Message[] = []) => {
+//   // if no messages then exit
+//   if (!messages.length) {
+//     return
+//   }
+//   const message
+// }
+
+// const pollForMessages = async () => {
+//   try {
+//     const data = await client.send(command)
+//     handleMessage(data.Messages)
+//   } catch (err) {
+//     console.log(err)
+//     throw new Error(err)
+//   }
+// }
+
+// pollForMessages()
 
 // import { testServo } from './src/servo'
 // import * as five from 'johnny-five'

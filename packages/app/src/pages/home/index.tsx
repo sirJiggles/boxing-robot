@@ -53,8 +53,9 @@ export const Home: FunctionComponent = () => {
                 <View style={styles.item} key={`command${index}`}>
                   <Button
                     style={styles.button}
-                    onPress={() => {
-                      client.send(command)
+                    onPress={async () => {
+                      const data = await client.send(command)
+                      console.log(data)
                     }}
                     mode='contained'
                   >

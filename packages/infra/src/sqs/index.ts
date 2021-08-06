@@ -16,7 +16,7 @@ const sqsQueuePolicy = (
           "Sid": "First",
           "Effect": "Allow",
           "Principal": "*",
-          "Action": ["sqs:SendMessage", "sqs:ReceiveMessage"],
+          "Action": ["sqs:SendMessage", "sqs:ReceiveMessage", "sqs:DeleteMessage"],
           "Resource": "${queue.arn}"
         }
       ]
