@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react'
-import { Button, Card } from 'react-native-paper'
+import React, { FunctionComponent, useState } from 'react'
+import { Button, Card, TextInput } from 'react-native-paper'
 import { Layout } from '../../components/Layout'
 import Constants from 'expo-constants'
 import { AppConfig } from '../../types/AppConfig'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 
 import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
 // as we cannot know the type of the manifest, we can define it in
@@ -42,9 +42,20 @@ const commands = [
 ]
 
 export const Home: FunctionComponent = () => {
+  const [duration, setDuration] = useState('30')
+  const [difficulty, setDifficulty] = useState('10')
+
+  const startWorkoutCommand = new PublishCommand({
+    Message: JSON.stringify({
+      duration,
+      difficulty,
+    }),
+    TopicArn: boxingTopicArn,
+  })
+
   return (
     <Layout>
-      <Card>
+      <Card style={styles.card}>
         <Card.Title title='Bash the arms' />
         <Card.Content>
           <View style={styles.list}>
@@ -67,11 +78,47 @@ export const Home: FunctionComponent = () => {
           </View>
         </Card.Content>
       </Card>
+      <Card style={styles.card}>
+        <Card.Title title='Start a workout' />
+        <Card.Content>
+          <View style={styles.swlist}>
+            <View style={styles.switem}>
+              <TextInput
+                label='Duration (in mins)'
+                value={duration}
+                onChangeText={(text) => setDuration(text)}
+              />
+            </View>
+            <View style={styles.switem}>
+              <TextInput
+                label='Difficulty (0-10)'
+                value={difficulty}
+                onChangeText={(text) => setDifficulty(text)}
+              />
+            </View>
+            <View style={styles.switem}>
+              <Button
+                style={styles.button}
+                onPress={async () => {
+                  console.log('will send', startWorkoutCommand.input.Message)
+                  // await client.send(startWorkoutCommand)
+                }}
+                mode='contained'
+              >
+                Start workout
+              </Button>
+            </View>
+          </View>
+        </Card.Content>
+      </Card>
     </Layout>
   )
 }
 
 const styles = StyleSheet.create({
+  card: {
+    marginBottom: 20,
+  },
   button: {
     width: '100%',
     minHeight: 70,
@@ -89,5 +136,15 @@ const styles = StyleSheet.create({
   item: {
     width: '50%',
     padding: 20,
+  },
+  swlist: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
+    width: '100%',
+  },
+  switem: {
+    width: '100%',
+    paddingVertical: 20,
   },
 })
