@@ -55,7 +55,7 @@ export const Home: FunctionComponent = () => {
 
   return (
     <Layout>
-      <Card>
+      <Card style={styles.card}>
         <Card.Title title='Bash the arms' />
         <Card.Content>
           <View style={styles.list}>
@@ -78,9 +78,7 @@ export const Home: FunctionComponent = () => {
           </View>
         </Card.Content>
       </Card>
-      <br />
-      <br />
-      <Card>
+      <Card style={styles.card}>
         <Card.Title title='Start a workout' />
         <Card.Content>
           <View style={styles.swlist}>
@@ -118,6 +116,9 @@ export const Home: FunctionComponent = () => {
 }
 
 const styles = StyleSheet.create({
+  card: {
+    marginBottom: 20,
+  },
   button: {
     width: '100%',
     minHeight: 70,
