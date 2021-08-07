@@ -1,10 +1,10 @@
 import { Servo } from 'johnny-five'
 
 export const arms = [
-  new Servo('GPIO10'),
-  new Servo('GPIO11'),
-  new Servo('GPIO12'),
-  new Servo('GPIO13'),
+  new Servo('GPIO19'),
+  new Servo('GPIO16'),
+  new Servo('GPIO26'),
+  new Servo('GPIO20'),
 ]
 
 // reset the arms if there is an error
