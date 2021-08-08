@@ -21,23 +21,25 @@ const combos = [
 export let processingCombo = false
 
 export const doHit = async (arm: number) => {
-  const number = arm - 1
-  // go out and back in again
-  // cannot go out if already out
-  if (armsOut[number]) {
-    return true
-  }
-  out(number)
-  armsOut[number] = true
-  setTimeout(() => {
-    back(number)
-    armsOut[number] = false
-    // give it time to get back
+  return new Promise((resolve, reject) => {
+    const number = arm - 1
+    // go out and back in again
+    // cannot go out if already out
+    if (armsOut[number]) {
+      resolve(true)
+    }
+    out(number)
+    armsOut[number] = true
     setTimeout(() => {
-      // resolve the async func
-      return true
-    }, 700)
-  }, 700)
+      back(number)
+      armsOut[number] = false
+      // give it time to get back
+      setTimeout(() => {
+        // resolve the async func
+        resolve(true)
+      }, 500)
+    }, 500)
+  })
 }
 
 // what to do when we stop the hits
@@ -54,4 +56,5 @@ export const doCombo = async () => {
     // we wait as we only want to do the next move when the last one is done
     await doHit(move)
   }
+  processingCombo = false
 }

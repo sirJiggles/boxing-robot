@@ -14,10 +14,12 @@ export const onMessage = (payload: MessagePayload) => {
   // if we can convert the message to a number, it is an instruction to move an arm
   if (messageAsNumber) {
     doHit(messageAsNumber)
+    return
   }
 
-  if (message == 'stop') {
+  if (message === 'stop') {
     stop()
+    return
   }
 
   // if we are here it was a start workout command
