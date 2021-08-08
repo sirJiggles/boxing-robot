@@ -1,7 +1,7 @@
 import { Servo } from 'johnny-five'
 
 let arms: Servo[] = []
-export const armSpeed = 500
+export const armSpeed = 700
 
 export const initArms = () => {
   const options = {
