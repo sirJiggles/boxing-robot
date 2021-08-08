@@ -4,17 +4,18 @@ import { back, out } from '../servo'
 const armsOut = [false, false, false, false]
 
 export const doHit = (arm: number) => {
+  const number = arm -1 
   // go out and back in again
   // cannot go out if already out
-  if (armsOut[arm]) {
+  if (armsOut[number]) {
     return
   }
-  out(arm)
-  armsOut[arm] = true
+  out(number)
+  armsOut[number] = true
   setTimeout(() => {
-    if (!armsOut[arm]) {
-      back(arm)
-      armsOut[arm] = false
+    if (armsOut[number]) {
+      back(number)
+      armsOut[number] = false
     }
-  }, 1000)
+  }, 700)
 }

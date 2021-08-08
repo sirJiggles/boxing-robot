@@ -12,19 +12,22 @@ export const initArms = () => {
   return arms
 }
 
-// reset the arms if there is an error
-export const resetArms = () => {
-  arms.forEach((_, index) => {
-    back(index)
-  })
+// move all the arms out but stagger it
+export const resetArms = (arm = arms.length) => {
+  back(arm - 1)
+  setTimeout(() => {
+    if (arm > 1) {
+      resetArms(arm - 1)
+    }
+  }, 500)
 }
 
 export const back = (arm: number) => {
-  console.log(`arm ${arm} out`)
-  arms[arm].to(0)
+  console.log(`arm ${arm} in`)
+  arms[arm].to(10)
 }
 
 export const out = (arm: number) => {
-  console.log(`arm ${arm} in`)
-  arms[arm].to(180)
+  console.log(`arm ${arm} extend`)
+  arms[arm].to(170)
 }
