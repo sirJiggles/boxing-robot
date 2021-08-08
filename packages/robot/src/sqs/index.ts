@@ -3,14 +3,6 @@ import { Consumer } from 'sqs-consumer'
 import AWS from 'aws-sdk'
 import https from 'https'
 
-const { region, accessKeyId, secretAccessKey, queueUrl } = process.env as Config
-
-AWS.config.update({
-  region,
-  accessKeyId,
-  secretAccessKey,
-})
-
 const handleError = (err: Error) => {
   console.error(err.message)
   throw err
@@ -20,6 +12,14 @@ export const createSQSListeningApp = (
   onMessage: (message: any) => void,
   onError: () => void
 ) => {
+  const { region, accessKeyId, secretAccessKey, queueUrl } = process.env as Config
+
+  AWS.config.update({
+    region,
+    accessKeyId,
+    secretAccessKey,
+  })
+
   const app = Consumer.create({
     region,
     queueUrl,

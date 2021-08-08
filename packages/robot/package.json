@@ -10,8 +10,8 @@
     "package": "rm -rf dist && yarn build && cp package.json dist/ && cd dist && npm install --production",
     "build": "tsc -p .",
     "configure": "node configure.js",
-    "start": "yarn configure && yarn build && yarn execute",
-    "execute": "node dist/index.js",
+    "start": "yarn build && yarn execute",
+    "execute": "node --experimental-modules dist/index.js",
     "dev": "ts-node -O '{\"module\":\"commonjs\"}' index.ts",
     "lint": "eslint '**/*.{js,ts}' --fix"
   },

@@ -3,7 +3,7 @@
 // get secrets
 import dotenv from 'dotenv'
 import * as five from 'johnny-five'
-import { arms } from './src/servo'
+import { initArms } from './src/servo'
 import { RaspiIO } from 'raspi-io'
 import { createSQSListeningApp } from './src/sqs'
 import { onMessage, onError } from './src/events'
@@ -15,12 +15,21 @@ const board = new five.Board({
 })
 
 board.on('ready', function () {
+  const arms = initArms()
+
   // make the sqs app with the arms and the event handler for what we should do on those events
   const app = createSQSListeningApp(onMessage, onError)
 
+  const replObj :{[key: string]: five.Servo} = {}
+  arms.forEach((arm, index) => {
+    replObj[`arm${index}`] = arm
+  })
+
   // make it so we can get the arms in the repl by something a little easier
-  board.repl.inject(arms.map((arm, index) => ({ [`servo${index}`]: arm })))
+  board.repl.inject(replObj)
 
   // start the app
   app.start()
+
+  console.log('ready fredy')
 })
