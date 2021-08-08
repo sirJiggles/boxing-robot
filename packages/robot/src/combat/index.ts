@@ -20,8 +20,14 @@ const combos = [
 // state to let people know, we are working on a combo
 export let processingCombo = false
 
-export const doHit = async (arm: number) => {
+export const doHit = async (arm: number, asCombo?: boolean) => {
   return new Promise((resolve, reject) => {
+    // if doing a hit as part of a combo but now we should not
+    // be processing one, just bail from here
+    if (asCombo && !processingCombo) {
+      resolve(true)
+    }
+
     const number = arm - 1
     // go out and back in again
     // cannot go out if already out
