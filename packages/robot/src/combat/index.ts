@@ -54,7 +54,7 @@ export const doCombo = async () => {
   const combo = combos[Math.floor(Math.random() * combos.length)]
   for await (let move of combo) {
     // we wait as we only want to do the next move when the last one is done
-    await doHit(move)
+    await doHit(move, true)
   }
   processingCombo = false
 }
