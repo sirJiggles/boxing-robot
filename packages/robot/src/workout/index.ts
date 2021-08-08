@@ -5,11 +5,6 @@ let running = false
 let workoutDuration = 0
 let timeSpentWorkingOut = 0
 let tickInterval: NodeJS.Timeout
-let comboTimeout: NodeJS.Timeout
-
-const randomIntFromInterval = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
 
 // a tick of a workout second
 const tick = () => {
@@ -19,8 +14,7 @@ const tick = () => {
   }
   if (workoutDuration > timeSpentWorkingOut) {
     if (!processingCombo) {
-      // do the next combo between x and y seconds from now if not already doing one
-      comboTimeout = setTimeout(doCombo, randomIntFromInterval(2, 4) * 1000)
+      doCombo()
     }
     timeSpentWorkingOut += 1
     return
@@ -42,7 +36,6 @@ export const start = (duration: number) => {
 export const stop = () => {
   console.log('workout stopped')
   clearInterval(tickInterval)
-  clearTimeout(comboTimeout)
   running = false
   workoutDuration = 0
   stopHits()

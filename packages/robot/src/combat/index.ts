@@ -3,6 +3,12 @@ import { back, out, armSpeed } from '../servo'
 // state for what is out and in, start up all up
 const armsOut = [false, false, false, false]
 
+let comboTimeout: NodeJS.Timeout
+
+const randomIntFromInterval = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 // just slap some standard combos in there for now
 const combos = [
   [1, 1, 2],
@@ -50,17 +56,25 @@ export const doHit = async (arm: number, asCombo?: boolean) => {
 
 // what to do when we stop the hits
 export const stopHits = () => {
+  clearTimeout(comboTimeout)
   processingCombo = false
 }
 
-export const doCombo = async () => {
-  // when starting a combo, say we are now processing one
-  processingCombo = true
+const startCombo = async () => {
   // pick a combo to do
   const combo = combos[Math.floor(Math.random() * combos.length)]
+  // let left = combo.length - 1
   for await (let move of combo) {
     // we wait as we only want to do the next move when the last one is done
     await doHit(move, true)
   }
   processingCombo = false
+}
+
+export const doCombo = () => {
+  // when starting a combo, say we are now processing one
+  processingCombo = true
+  // do the next combo between x and y seconds from now if not already doing one
+  comboTimeout = setTimeout(startCombo, randomIntFromInterval(2, 4) * 1000)
+  
 }
