@@ -1,4 +1,6 @@
 echo "hello"
 sleep 5
-cd /home/pi/Desktop/development/boxing-robot/packages/robot && sudo yarn start
-# sudo /usr/local/bin/forever start /home/pi/Desktop/development/boxing-robot/packages/boxing-robot/dist/index.js
+cd /home/pi/Desktop/development/boxing-robot/packages/robot
+sudo yarn build
+cp .env ./dist
+sudo /home/pi/.config/versions/node/v16.6.1/bin/forever start ./dist/index.js
