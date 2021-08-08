@@ -1,4 +1,4 @@
-import { back, out } from '../servo'
+import { back, out, armSpeed } from '../servo'
 
 // state for what is out and in, start up all up
 const armsOut = [false, false, false, false]
@@ -43,8 +43,8 @@ export const doHit = async (arm: number, asCombo?: boolean) => {
       setTimeout(() => {
         // resolve the async func
         resolve(true)
-      }, 500)
-    }, 500)
+      }, armSpeed)
+    }, armSpeed)
   })
 }
 
