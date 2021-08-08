@@ -20,7 +20,12 @@ const combos = [
 // state to let people know, we are working on a combo
 export let processingCombo = false
 
-export const doHit = async (arm: number) => {
+export const doHit = async (arm: number, asCombo?: boolean) => {
+  // if doing a hit as part of a combo but now we should not
+  // be processing one, just bail from here
+  if (asCombo && !processingCombo) {
+    return true
+  }
   const number = arm - 1
   // go out and back in again
   // cannot go out if already out
@@ -52,6 +57,6 @@ export const doCombo = async () => {
   const combo = combos[Math.floor(Math.random() * combos.length)]
   for await (let move of combo) {
     // we wait as we only want to do the next move when the last one is done
-    await doHit(move)
+    await doHit(move, true)
   }
 }

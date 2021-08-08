@@ -1,5 +1,4 @@
 import { doHit } from '../combat'
-import { resetArms } from '../servo'
 import { MessagePayload, MessageBody, WorkoutConfig } from '../types'
 import { start, stop } from '../workout'
 
@@ -25,6 +24,7 @@ export const onMessage = (payload: MessagePayload) => {
   start(workoutConfig.duration)
 }
 
+// just stop all the things on error
 export const onError = () => {
-  resetArms()
+  stop()
 }
