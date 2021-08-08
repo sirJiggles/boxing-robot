@@ -3,7 +3,7 @@ import { Button, Card, TextInput } from 'react-native-paper'
 import { Layout } from '../../components/Layout'
 import Constants from 'expo-constants'
 import { AppConfig } from '../../types/AppConfig'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
 // as we cannot know the type of the manifest, we can define it in
@@ -40,6 +40,11 @@ const commands = [
     TopicArn: boxingTopicArn,
   }),
 ]
+
+const stopWorkoutCommand = new PublishCommand({
+  Message: 'stop',
+  TopicArn: boxingTopicArn,
+})
 
 export const Home: FunctionComponent = () => {
   const [duration, setDuration] = useState('30')
@@ -100,8 +105,18 @@ export const Home: FunctionComponent = () => {
               <Button
                 style={styles.button}
                 onPress={async () => {
-                  console.log('will send', startWorkoutCommand.input.Message)
-                  // await client.send(startWorkoutCommand)
+                  await client.send(startWorkoutCommand)
+                }}
+                mode='contained'
+              >
+                Start workout
+              </Button>
+            </View>
+            <View style={styles.switem}>
+              <Button
+                style={styles.button}
+                onPress={async () => {
+                  await client.send(stopWorkoutCommand)
                 }}
                 mode='contained'
               >

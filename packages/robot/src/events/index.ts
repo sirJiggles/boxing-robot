@@ -1,6 +1,7 @@
 import { doHit } from '../combat'
 import { resetArms } from '../servo'
-import { MessagePayload, MessageBody } from '../types'
+import { MessagePayload, MessageBody, WorkoutConfig } from '../types'
+import { start, stop } from '../workout'
 
 export const onMessage = (payload: MessagePayload) => {
   const parsedBody = JSON.parse(payload.Body) as MessageBody
@@ -14,6 +15,14 @@ export const onMessage = (payload: MessagePayload) => {
   if (messageAsNumber) {
     doHit(messageAsNumber)
   }
+
+  if (message == 'stop') {
+    stop()
+  }
+
+  // if we are here it was a start workout command
+  const workoutConfig = JSON.parse(message) as WorkoutConfig
+  start(workoutConfig.duration)
 }
 
 export const onError = () => {

@@ -12,3 +12,8 @@ export type MessagePayload = {
 export type MessageBody = {
   Message: string
 }
+
+export type WorkoutConfig = {
+  duration: number,
+  difficulty: number
+}
