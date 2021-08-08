@@ -12,14 +12,23 @@ const randomIntFromInterval = (min: number, max: number) => {
 // just slap some standard combos in there for now
 const combos = [
   [1, 1, 2],
+  [1, 1, 2],
+  [1, 1, 2],
+  [1, 2, 3],
+  [1, 2, 3],
   [1, 2, 3],
   [1],
   [1, 2],
+  [1, 2],
   [1, 1],
+  [1, 1],
+  [1, 2, 3, 4],
+  [1, 2, 3, 4],
   [1, 2, 3, 4],
   [2],
   [3],
   [4],
+  [4, 3],
   [4, 3],
 ]
 
@@ -75,6 +84,6 @@ export const doCombo = () => {
   // when starting a combo, say we are now processing one
   processingCombo = true
   // do the next combo between x and y seconds from now if not already doing one
-  comboTimeout = setTimeout(startCombo, randomIntFromInterval(2, 4) * 1000)
+  comboTimeout = setTimeout(startCombo, randomIntFromInterval(1, 3) * 1000)
   
 }
