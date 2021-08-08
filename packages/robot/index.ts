@@ -16,7 +16,7 @@ const board = new five.Board({
 
 board.on('ready', function () {
   const arms = initArms()
-  resetArms()
+  // resetArms()
 
   // make the sqs app with the arms and the event handler for what we should do on those events
   const app = createSQSListeningApp(onMessage, onError)

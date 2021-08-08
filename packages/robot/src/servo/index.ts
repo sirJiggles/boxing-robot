@@ -3,12 +3,18 @@ import { Servo } from 'johnny-five'
 let arms: Servo[] = []
 
 export const initArms = () => {
+  const options = {
+    startAt: 0,
+    fps: 100
+  }
   arms = [
-    new Servo('GPIO19'),
-    new Servo('GPIO16'),
-    new Servo('GPIO26'),
-    new Servo('GPIO20'),
+    new Servo({pin: 'GPIO19', ...options}),
+    new Servo({pin: 'GPIO16', ...options}),
+    new Servo({pin: 'GPIO26', ...options}),
+    new Servo({pin: 'GPIO20', ...options}),
   ]
+  // calabrate the servos
+  arms.forEach(arm => arm.stop())
   return arms
 }
 
@@ -23,11 +29,19 @@ export const resetArms = (arm = arms.length) => {
 }
 
 export const back = (arm: number) => {
-  console.log(`arm ${arm} in`)
-  arms[arm].to(10)
+  console.log(`arm ${arm} back`)
+  const servo = arms[arm]
+  if (servo.isMoving) {
+    servo.stop()
+  }
+  servo.to(0, 500)
 }
 
 export const out = (arm: number) => {
   console.log(`arm ${arm} extend`)
-  arms[arm].to(170)
+  const servo = arms[arm]
+  if (servo.isMoving) {
+    servo.stop()
+  }
+  servo.to(180, 500)
 }
