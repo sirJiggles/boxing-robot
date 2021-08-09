@@ -1,6 +1,7 @@
 import { Servo } from 'johnny-five'
 
 let arms: Servo[] = []
+export const armSpeed = 700
 
 export const initArms = () => {
   const options = {
@@ -19,17 +20,11 @@ export const initArms = () => {
 }
 
 // move all the arms back
-export const resetArms = (arm = arms.length) => {
-  arms.forEach((arm) => {
+export const resetArms = () => {
+  arms.forEach((arm, index) => {
     arm.stop()
-    arm.min()
+    back(index)
   })
-  // back(arm - 1)
-  // setTimeout(() => {
-  //   if (arm > 1) {
-  //     resetArms(arm - 1)
-  //   }
-  // }, 500)
 }
 
 export const back = (arm: number) => {
@@ -38,7 +33,7 @@ export const back = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(0, 500)
+  servo.to(0, armSpeed)
 }
 
 export const out = (arm: number) => {
@@ -47,5 +42,5 @@ export const out = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(180, 500)
+  servo.to(180, armSpeed)
 }
