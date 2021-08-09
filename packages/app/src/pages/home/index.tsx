@@ -11,7 +11,7 @@ import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
 // know what is in the manifest
 const config = Constants as unknown as AppConfig
 const { region, boxingTopicArn, accessKeyId, secretAccessKey } =
-  config.manifest.env
+  config.manifest.extra
 
 const client = new SNSClient({
   region,
@@ -61,29 +61,6 @@ export const Home: FunctionComponent = () => {
   return (
     <Layout>
       <Card style={styles.card}>
-        <Card.Title title='Bash the arms' />
-        <Card.Content>
-          <View style={styles.list}>
-            {commands.map((command, index) => {
-              return (
-                <View style={styles.item} key={`command${index}`}>
-                  <Button
-                    style={styles.button}
-                    onPress={async () => {
-                      const data = await client.send(command)
-                      console.log(data)
-                    }}
-                    mode='contained'
-                  >
-                    {index + 1}
-                  </Button>
-                </View>
-              )
-            })}
-          </View>
-        </Card.Content>
-      </Card>
-      <Card style={styles.card}>
         <Card.Title title='Start a workout' />
         <Card.Content>
           <View style={styles.swlist}>
@@ -120,9 +97,32 @@ export const Home: FunctionComponent = () => {
                 }}
                 mode='contained'
               >
-                Start workout
+                Stop workout
               </Button>
             </View>
+          </View>
+        </Card.Content>
+      </Card>
+      <Card style={styles.card}>
+        <Card.Title title='Bash the arms' />
+        <Card.Content>
+          <View style={styles.list}>
+            {commands.map((command, index) => {
+              return (
+                <View style={styles.item} key={`command${index}`}>
+                  <Button
+                    style={styles.button}
+                    onPress={async () => {
+                      const data = await client.send(command)
+                      console.log(data)
+                    }}
+                    mode='contained'
+                  >
+                    {index + 1}
+                  </Button>
+                </View>
+              )
+            })}
           </View>
         </Card.Content>
       </Card>

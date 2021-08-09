@@ -2,7 +2,7 @@ export type AppConfig = {
   manifest: {
     name: string
     version: string
-    env: {
+    extra: {
       boxingTopicArn: string
       region: string
       accessKeyId: string

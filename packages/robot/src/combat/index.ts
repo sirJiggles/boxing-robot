@@ -35,7 +35,11 @@ const combos = [
 // state to let people know, we are working on a combo
 export let processingCombo = false
 
-export const doHit = async (arm: number, asCombo?: boolean) => {
+export const doHit = async (
+  arm: number,
+  asCombo?: boolean,
+  nextArm?: number
+) => {
   return new Promise((resolve, reject) => {
     // if doing a hit as part of a combo but now we should not
     // be processing one, just bail from here
@@ -54,7 +58,15 @@ export const doHit = async (arm: number, asCombo?: boolean) => {
     setTimeout(() => {
       back(number)
       armsOut[number] = false
-      // give it time to get back
+
+      // if we are in a combo and the next arm is not the same as the one
+      // that just hit already start the next arm
+      if (asCombo && nextArm !== arm) {
+        resolve(true)
+        return
+      }
+
+      // give it time to get back (it might need to go out again)
       setTimeout(() => {
         // resolve the async func
         resolve(true)
@@ -72,10 +84,12 @@ export const stopHits = () => {
 const startCombo = async () => {
   // pick a combo to do
   const combo = combos[Math.floor(Math.random() * combos.length)]
-  // let left = combo.length - 1
-  for await (let move of combo) {
+  let nextIndex = 0
+
+  for (const move of combo) {
+    nextIndex += 1
     // we wait as we only want to do the next move when the last one is done
-    await doHit(move, true)
+    await doHit(move, true, combo[nextIndex] || undefined)
   }
   processingCombo = false
 }
@@ -85,5 +99,4 @@ export const doCombo = () => {
   processingCombo = true
   // do the next combo between x and y seconds from now if not already doing one
   comboTimeout = setTimeout(startCombo, randomIntFromInterval(1, 3) * 1000)
-  
 }
