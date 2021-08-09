@@ -20,10 +20,17 @@ export const initArms = () => {
 }
 
 // move all the arms back
-export const resetArms = () => {
+export const armsOut = () => {
   arms.forEach((arm, index) => {
     arm.stop()
     back(index)
+  })
+}
+
+export const armsIn = () => {
+  arms.forEach((arm, index) => {
+    arm.stop()
+    out(index)
   })
 }
 

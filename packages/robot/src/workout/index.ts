@@ -1,5 +1,5 @@
 import { doCombo, processingCombo, stopHits } from '../combat'
-import { resetArms } from '../servo'
+import { armsOut, armsIn } from '../servo'
 
 let running = false
 let workoutDuration = 0
@@ -26,6 +26,7 @@ const tick = () => {
 
 export const start = (duration: number) => {
   console.log('workout started')
+  armsOut()
   running = true
   // mins to seconds for duration of workout
   workoutDuration = duration * 60
@@ -39,5 +40,5 @@ export const stop = () => {
   running = false
   workoutDuration = 0
   stopHits()
-  resetArms()
+  armsIn()
 }
