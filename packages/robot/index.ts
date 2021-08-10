@@ -3,12 +3,15 @@
 // get secrets
 import dotenv from 'dotenv'
 import * as five from 'johnny-five'
-import { initArms, resetArms } from './src/servo'
+import { initArms } from './src/servo'
 import { RaspiIO } from 'raspi-io'
 import { createSQSListeningApp } from './src/sqs'
-import { onMessage, onError } from './src/events'
+import { onMessage, onError, sendMessage } from './src/events'
+import { Message } from './src/types'
 
 dotenv.config()
+
+sendMessage(Message.starting)
 
 const board = new five.Board({
   io: new RaspiIO(),
@@ -30,4 +33,6 @@ board.on('ready', function () {
 
   // start the app
   app.start()
+
+  sendMessage(Message.ready)
 })

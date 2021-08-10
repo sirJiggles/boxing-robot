@@ -9,9 +9,12 @@ export default {
   // our env vars can be stored here via dotenv, the inline babel plugin was not
   // working out, this seems a little nicer anyhow to have em in one place
   extra: {
-    boxingTopicArn: process.env.boxingTopicArn,
+    robotQueueUrl: process.env.robotQueueUrl,
+    topicForRobotToPostToArn: process.env.topicForRobotToPostToArn,
     region: process.env.region,
-    accessKeyId: process.env.accessKeyId,
     secretAccessKey: process.env.secretAccessKey,
+    accessKeyId: process.env.accessKeyId,
+    queueForAppToConsumeUrl: process.env.queueForAppToConsumeUrl,
+    topicForAppToPostToArn: process.env.topicForAppToPostToArn,
   },
 }

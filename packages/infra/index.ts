@@ -5,9 +5,11 @@ const output = program()
 
 // stack outputs
 export const {
-  boxingTopicArn,
+  queueForRobotToConsumeUrl,
+  topicForRobotToPostToArn,
   region,
   secretAccessKey,
   accessKeyId,
-  queueUrl,
+  queueForAppToConsumeUrl,
+  topicForAppToPostToArn,
 } = output

@@ -1,5 +1,7 @@
 import { doCombo, processingCombo, stopHits } from '../combat'
+import { sendMessage } from '../events'
 import { armsOut, armsIn } from '../servo'
+import { Message } from '../types'
 
 let running = false
 let workoutDuration = 0
@@ -32,6 +34,8 @@ export const start = (duration: number) => {
   workoutDuration = duration * 60
   // start the ticker for the workout, every second
   tickInterval = setInterval(tick, 1000)
+  // let everyone know the bot is busy
+  sendMessage(Message.busy)
 }
 
 export const stop = () => {
@@ -41,4 +45,6 @@ export const stop = () => {
   workoutDuration = 0
   stopHits()
   armsIn()
+  // let everyone know the bot is again free
+  sendMessage(Message.ready)
 }

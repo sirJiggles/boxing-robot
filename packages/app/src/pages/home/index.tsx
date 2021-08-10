@@ -2,48 +2,40 @@ import React, { FunctionComponent, useState } from 'react'
 import { Button, Card, TextInput } from 'react-native-paper'
 import { Layout } from '../../components/Layout'
 import Constants from 'expo-constants'
-import { AppConfig } from '../../types/AppConfig'
+import { AppConfig } from '../../types'
 import { View, StyleSheet } from 'react-native'
 
-import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
+import { PublishCommand } from '@aws-sdk/client-sns'
+import { snsClient } from '../../messaging/sns'
 // as we cannot know the type of the manifest, we can define it in
 // app config and just override the type, she is unknown if we don't
 // know what is in the manifest
 const config = Constants as unknown as AppConfig
-const { region, boxingTopicArn, accessKeyId, secretAccessKey } =
-  config.manifest.extra
-
-const client = new SNSClient({
-  region,
-  credentials: {
-    accessKeyId,
-    secretAccessKey,
-  },
-})
+const { topicForAppToPostToArn } = config.manifest.extra
 
 // some commands to represent the servos for now
 const commands = [
   new PublishCommand({
     Message: '1',
-    TopicArn: boxingTopicArn,
+    TopicArn: topicForAppToPostToArn,
   }),
   new PublishCommand({
     Message: '2',
-    TopicArn: boxingTopicArn,
+    TopicArn: topicForAppToPostToArn,
   }),
   new PublishCommand({
     Message: '3',
-    TopicArn: boxingTopicArn,
+    TopicArn: topicForAppToPostToArn,
   }),
   new PublishCommand({
     Message: '4',
-    TopicArn: boxingTopicArn,
+    TopicArn: topicForAppToPostToArn,
   }),
 ]
 
 const stopWorkoutCommand = new PublishCommand({
   Message: 'stop',
-  TopicArn: boxingTopicArn,
+  TopicArn: topicForAppToPostToArn,
 })
 
 export const Home: FunctionComponent = () => {
@@ -55,7 +47,7 @@ export const Home: FunctionComponent = () => {
       duration,
       difficulty,
     }),
-    TopicArn: boxingTopicArn,
+    TopicArn: topicForAppToPostToArn,
   })
 
   return (
@@ -82,7 +74,7 @@ export const Home: FunctionComponent = () => {
               <Button
                 style={styles.button}
                 onPress={async () => {
-                  await client.send(startWorkoutCommand)
+                  await snsClient.send(startWorkoutCommand)
                 }}
                 mode='contained'
               >
@@ -93,7 +85,7 @@ export const Home: FunctionComponent = () => {
               <Button
                 style={styles.button}
                 onPress={async () => {
-                  await client.send(stopWorkoutCommand)
+                  await snsClient.send(stopWorkoutCommand)
                 }}
                 mode='contained'
               >
@@ -113,7 +105,7 @@ export const Home: FunctionComponent = () => {
                   <Button
                     style={styles.button}
                     onPress={async () => {
-                      const data = await client.send(command)
+                      const data = await snsClient.send(command)
                       console.log(data)
                     }}
                     mode='contained'

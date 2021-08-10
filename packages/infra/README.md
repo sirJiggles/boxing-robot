@@ -10,7 +10,7 @@ TODO when we know what we have done here we can talk more about it :D
 
 > Do **other systems** care about an event?
 
-SQS, as SQS is what we use to send put events to other systems. it could be a SNS queue, lambda or whatever. But a queue is a good idea as even if something breaks the message is persisted
+SNS, as SNS is what we use to send put events to other systems. it could be a SQS queue, lambda or whatever. But a queue is a good idea as even if something breaks the message is persisted
 <br />
 <br />
 

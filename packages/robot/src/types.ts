@@ -1,8 +1,11 @@
 export type Config = {
+  robotQueueUrl: string
+  topicForRobotToPostToArn: string
   region: string
-  accessKeyId: string
   secretAccessKey: string
-  queueUrl: string
+  accessKeyId: string
+  queueForAppToConsumeUrl: string
+  topicForAppToPostToArn: string
 }
 
 export type MessagePayload = {
@@ -14,6 +17,13 @@ export type MessageBody = {
 }
 
 export type WorkoutConfig = {
-  duration: number,
+  duration: number
   difficulty: number
+}
+
+export enum Message {
+  starting = 'starting',
+  busy = 'busy',
+  ready = 'ready',
+  stopWorkout = 'stop',
 }
