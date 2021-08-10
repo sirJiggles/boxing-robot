@@ -1,5 +1,5 @@
 export type Config = {
-  robotQueueUrl: string
+  queueForRobotToConsumeUrl: string
   topicForRobotToPostToArn: string
   region: string
   secretAccessKey: string

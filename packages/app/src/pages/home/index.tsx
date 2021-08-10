@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Button, Card, TextInput } from 'react-native-paper'
+import { Button, Card, TextInput, Chip } from 'react-native-paper'
 import { Layout } from '../../components/Layout'
 import Constants from 'expo-constants'
 import { AppConfig } from '../../types'
@@ -7,6 +7,7 @@ import { View, StyleSheet } from 'react-native'
 
 import { PublishCommand } from '@aws-sdk/client-sns'
 import { snsClient } from '../../messaging/sns'
+import { useEvent } from '../../messaging/eventContext'
 // as we cannot know the type of the manifest, we can define it in
 // app config and just override the type, she is unknown if we don't
 // know what is in the manifest
@@ -41,6 +42,7 @@ const stopWorkoutCommand = new PublishCommand({
 export const Home: FunctionComponent = () => {
   const [duration, setDuration] = useState('30')
   const [difficulty, setDifficulty] = useState('10')
+  const eventState = useEvent()
 
   const startWorkoutCommand = new PublishCommand({
     Message: JSON.stringify({
@@ -52,6 +54,9 @@ export const Home: FunctionComponent = () => {
 
   return (
     <Layout>
+      <Chip style={styles.card} icon='information'>
+        {eventState.robotState}
+      </Chip>
       <Card style={styles.card}>
         <Card.Title title='Start a workout' />
         <Card.Content>
