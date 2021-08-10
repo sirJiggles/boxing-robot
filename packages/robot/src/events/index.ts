@@ -1,35 +1,15 @@
-import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
+import { PublishCommand } from '@aws-sdk/client-sns'
 import { doHit } from '../combat'
-import {
-  MessagePayload,
-  MessageBody,
-  WorkoutConfig,
-  Message,
-  Config,
-} from '../types'
+import { WorkoutConfig, Message, Config } from '../types'
 import { start, stop } from '../workout'
+import { snsClient } from './sns'
+import { pollForMessages } from './sqs'
 
-// grab the things we need of the env to configure the client
-const { region, accessKeyId, secretAccessKey, topicForRobotToPostToArn } =
-  process.env as Config
-
-// the sns client to post our events too
-const snsClient = new SNSClient({
-  region,
-  credentials: {
-    accessKeyId,
-    secretAccessKey,
-  },
-})
+const { topicForRobotToPostToArn } = process.env as Config
 
 // @TODO we need better handling of the mixed type of messages
 // if his gets more complex
-export const onMessage = (payload: MessagePayload) => {
-  const parsedBody = JSON.parse(payload.Body) as MessageBody
-  if (!parsedBody) {
-    throw new Error('could not pass the body of the message')
-  }
-  const message = parsedBody.Message
+const onMessage = (message: string) => {
   const messageAsNumber = parseInt(message)
 
   // if we can convert the message to a number, it is an instruction to move an arm
@@ -51,6 +31,11 @@ export const onMessage = (payload: MessagePayload) => {
 // just stop all the things on error
 export const onError = () => {
   stop()
+}
+
+// start polling for messages from the front end
+export const startPolling = () => {
+  pollForMessages(onMessage, onError)
 }
 
 export const sendMessage = async (message: Message) => {

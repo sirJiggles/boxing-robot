@@ -5,8 +5,7 @@ import dotenv from 'dotenv'
 import * as five from 'johnny-five'
 import { initArms } from './src/servo'
 import { RaspiIO } from 'raspi-io'
-import { createSQSListeningApp } from './src/sqs'
-import { onMessage, onError, sendMessage } from './src/events'
+import { sendMessage, startPolling } from './src/events'
 import { Message } from './src/types'
 
 dotenv.config()
@@ -20,9 +19,6 @@ const board = new five.Board({
 board.on('ready', function () {
   const arms = initArms()
 
-  // make the sqs app with the arms and the event handler for what we should do on those events
-  const app = createSQSListeningApp(onMessage, onError)
-
   const replObj: { [key: string]: five.Servo } = {}
   arms.forEach((arm, index) => {
     replObj[`arm${index}`] = arm
@@ -30,9 +26,6 @@ board.on('ready', function () {
 
   // make it so we can get the arms in the repl by something a little easier
   board.repl.inject(replObj)
-
-  // start the app
-  app.start()
 
   sendMessage(Message.ready)
 })

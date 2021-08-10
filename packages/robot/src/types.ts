@@ -8,14 +8,6 @@ export type Config = {
   topicForAppToPostToArn: string
 }
 
-export type MessagePayload = {
-  Body: string
-}
-
-export type MessageBody = {
-  Message: string
-}
-
 export type WorkoutConfig = {
   duration: number
   difficulty: number
