@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { Button, Card, TextInput, Chip } from 'react-native-paper'
 import { Layout } from '../../components/Layout'
 import Constants from 'expo-constants'
-import { AppConfig } from '../../types'
+import { AppConfig, RobotState } from '../../types'
 import { View, StyleSheet } from 'react-native'
 
 import { PublishCommand } from '@aws-sdk/client-sns'
@@ -42,7 +42,7 @@ const stopWorkoutCommand = new PublishCommand({
 export const Home: FunctionComponent = () => {
   const [duration, setDuration] = useState('30')
   const [difficulty, setDifficulty] = useState('10')
-  const eventState = useEvent()
+  const { robotState } = useEvent()
 
   const startWorkoutCommand = new PublishCommand({
     Message: JSON.stringify({
@@ -52,10 +52,26 @@ export const Home: FunctionComponent = () => {
     TopicArn: topicForAppToPostToArn,
   })
 
+  const icon = () => {
+    switch (robotState) {
+      case RobotState.busy:
+        return 'close'
+      case RobotState.ready:
+        return 'check'
+      case RobotState.starting:
+        return 'information'
+    }
+  }
+
   return (
     <Layout>
-      <Chip style={styles.card} icon='information'>
-        {eventState.robotState}
+      <Chip
+        style={styles.card}
+        icon={icon()}
+        disabled={robotState === RobotState.busy}
+        selected={robotState === RobotState.ready}
+      >
+        {robotState}
       </Chip>
       <Card style={styles.card}>
         <Card.Title title='Start a workout' />
