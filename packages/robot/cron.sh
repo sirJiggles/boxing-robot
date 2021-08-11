@@ -1,7 +1,7 @@
 echo "hello"
 sleep 10
 cd /home/pi/Desktop/development/boxing-robot/
-git pull
+sudo git pull
 cd ./packages/robot
 sudo yarn build
 cp .env ./dist
