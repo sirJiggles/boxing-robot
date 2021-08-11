@@ -1,4 +1,5 @@
 import { Servo } from 'johnny-five'
+import { setTimeout } from 'timers'
 
 let arms: Servo[] = []
 export const armSpeed = 700
@@ -41,6 +42,14 @@ export const back = (arm: number) => {
     servo.stop()
   }
   servo.to(0, armSpeed)
+  // if the arm is still not back send the signal again to send it back
+  setTimeout(() => {
+    console.log(`arm position ${servo.position}`)
+    if (servo.position > 170) {
+      console.log('arm is stuck, trying again')
+      back(arm)
+    }
+  }, 200)
 }
 
 export const out = (arm: number) => {
