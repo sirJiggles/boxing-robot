@@ -30,6 +30,14 @@ const combos = [
   [4],
   [4, 3],
   [4, 3],
+  [2,3,4],
+  [1,2,3,1],
+  [2,2],
+  [1,3,4],
+  [4,3],
+  [3,4],
+  [4,4],
+  [3,3]
 ]
 
 // state to let people know, we are working on a combo
@@ -98,5 +106,5 @@ export const doCombo = () => {
   // when starting a combo, say we are now processing one
   processingCombo = true
   // do the next combo between x and y seconds from now if not already doing one
-  comboTimeout = setTimeout(startCombo, randomIntFromInterval(1, 3) * 1000)
+  comboTimeout = setTimeout(startCombo, randomIntFromInterval(1, 2) * 1000)
 }
