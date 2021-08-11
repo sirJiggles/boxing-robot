@@ -3,8 +3,8 @@ import { setTimeout, setInterval } from 'timers'
 
 let arms: Servo[] = []
 let backRecoveryInterval: NodeJS.Timer
-const armsExtended = [false, false, false, false]
-export const armSpeed = 400
+const armMovingOut = [false, false, false, false]
+export const armSpeed = 450
 const outAngle =  80
 const inAngle = 140
 
@@ -12,9 +12,8 @@ const startBackRecovery = () => {
   clearInterval(backRecoveryInterval)
   backRecoveryInterval = setInterval(() => {
     arms.forEach((arm, index) => {
-      if (armsExtended[index] && arm.position > outAngle) {
+      if (!armMovingOut[index] && arm.position > outAngle) {
         console.log(`arm ${index} stuck, recovering it`)
-        arm.stop()
         back(index)
       }
     })
@@ -33,7 +32,7 @@ export const initArms = () => {
   ]
   // calabrate the servos
   arms.forEach((arm) => arm.stop())
-  startBackRecovery()
+  // startBackRecovery()
   return arms
 }
 
@@ -54,10 +53,6 @@ export const back = (arm: number) => {
     servo.stop()
   }
   servo.to(outAngle, armSpeed)
-  // this arm should no longer be extended
-  setTimeout(() => {
-    armsExtended[arm] = false
-  }, armSpeed)
 }
 
 export const out = (arm: number) => {
@@ -67,7 +62,10 @@ export const out = (arm: number) => {
     servo.stop()
   }
   servo.to(inAngle, armSpeed)
+
+  // mark this arm is going out and should be pulled back if it gets stuck
+  armMovingOut[arm] = true
   setTimeout(() => {
-    armsExtended[arm] = true
-  }, armSpeed)
+    armMovingOut[arm] = false
+  }, armSpeed + 100)
 }
