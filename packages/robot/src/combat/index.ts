@@ -61,10 +61,10 @@ export const doHit = async (
 
       // if we are in a combo and the next arm is not the same as the one
       // that just hit already start the next arm
-      // if (asCombo && nextArm !== arm) {
-      //   resolve(true)
-      //   return
-      // }
+      if (asCombo && nextArm !== arm) {
+        resolve(true)
+        return
+      }
 
       // give it time to get back (it might need to go out again)
       setTimeout(() => {
