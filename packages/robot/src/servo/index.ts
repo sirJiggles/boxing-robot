@@ -1,13 +1,29 @@
 import { Servo } from 'johnny-five'
-import { setTimeout } from 'timers'
+import { setTimeout, setInterval } from 'timers'
 
 let arms: Servo[] = []
-export const armSpeed = 700
+let backRecoveryInterval: NodeJS.Timer
+const armsExtended = [false, false, false, false]
+export const armSpeed = 400
+const outAngle =  80
+const inAngle = 140
+
+const startBackRecovery = () => {
+  clearInterval(backRecoveryInterval)
+  backRecoveryInterval = setInterval(() => {
+    arms.forEach((arm, index) => {
+      if (armsExtended[index] && arm.position > outAngle) {
+        console.log(`arm ${index} stuck, recovering it`)
+        arm.stop()
+        back(index)
+      }
+    })
+  }, armSpeed)
+}
 
 export const initArms = () => {
   const options = {
-    startAt: 0,
-    fps: 100,
+    startAt: outAngle,
   }
   arms = [
     new Servo({ pin: 'GPIO19', ...options }),
@@ -17,6 +33,7 @@ export const initArms = () => {
   ]
   // calabrate the servos
   arms.forEach((arm) => arm.stop())
+  startBackRecovery()
   return arms
 }
 
@@ -28,12 +45,7 @@ export const armsOut = () => {
   })
 }
 
-export const armsIn = () => {
-  arms.forEach((arm, index) => {
-    arm.stop()
-    out(index)
-  })
-}
+
 
 export const back = (arm: number) => {
   console.log(`arm ${arm} back`)
@@ -41,15 +53,11 @@ export const back = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(0, armSpeed)
-  // if the arm is still not back send the signal again to send it back
+  servo.to(outAngle, armSpeed)
+  // this arm should no longer be extended
   setTimeout(() => {
-    console.log(`arm position ${servo.position}`)
-    if (servo.position > 170) {
-      console.log('arm is stuck, trying again')
-      back(arm)
-    }
-  }, 200)
+    armsExtended[arm] = false
+  }, armSpeed)
 }
 
 export const out = (arm: number) => {
@@ -58,5 +66,8 @@ export const out = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(180, armSpeed)
+  servo.to(inAngle, armSpeed)
+  setTimeout(() => {
+    armsExtended[arm] = true
+  }, armSpeed)
 }

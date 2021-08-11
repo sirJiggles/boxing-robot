@@ -1,6 +1,6 @@
 import { doCombo, processingCombo, stopHits } from '../combat'
 import { sendMessage } from '../events'
-import { armsOut, armsIn } from '../servo'
+import { armsOut } from '../servo'
 import { Message } from '../types'
 
 let running = false
@@ -44,7 +44,7 @@ export const stop = () => {
   running = false
   workoutDuration = 0
   stopHits()
-  armsIn()
+  armsOut()
   // let everyone know the bot is again free
   sendMessage(Message.ready)
 }
