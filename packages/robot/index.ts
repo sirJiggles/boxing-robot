@@ -2,15 +2,17 @@
 
 // get secrets
 import dotenv from 'dotenv'
+dotenv.config()
+
 import * as five from 'johnny-five'
 import { initArms } from './src/servo'
 import { RaspiIO } from 'raspi-io'
 import { sendMessage, startPolling } from './src/events'
 import { Message } from './src/types'
 
-dotenv.config()
 
 sendMessage(Message.starting)
+startPolling()
 
 const board = new five.Board({
   io: new RaspiIO(),

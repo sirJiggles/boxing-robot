@@ -35,7 +35,7 @@ export const onError = () => {
 
 // start polling for messages from the front end
 export const startPolling = () => {
-  pollForMessages(onMessage, onError)
+  pollForMessages(onMessage, onError, 1000)
 }
 
 export const sendMessage = async (message: Message) => {
