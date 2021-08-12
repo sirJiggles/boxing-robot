@@ -1,3 +1,7 @@
+// needed for sqs / sns in the app
+import 'react-native-get-random-values'
+import 'react-native-url-polyfill/auto'
+
 import React, { useState } from 'react'
 import { Home } from './src/pages/home'
 import { EventProvider } from './src/messaging/eventContext'
