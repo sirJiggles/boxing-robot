@@ -93,21 +93,26 @@ export const Home: FunctionComponent = () => {
             </View>
             <View style={styles.switem}>
               <Button
-                style={styles.button}
+                contentStyle={styles.buttonContent}
                 onPress={async () => {
                   await snsClient.send(startWorkoutCommand)
                 }}
                 mode='contained'
+                disabled={robotState === RobotState.busy}
               >
                 Start workout
               </Button>
             </View>
             <View style={styles.switem}>
               <Button
-                style={styles.button}
+                contentStyle={styles.buttonContent}
                 onPress={async () => {
                   await snsClient.send(stopWorkoutCommand)
                 }}
+                disabled={
+                  robotState === RobotState.ready ||
+                  robotState === RobotState.starting
+                }
                 mode='contained'
               >
                 Stop workout
@@ -124,7 +129,7 @@ export const Home: FunctionComponent = () => {
               return (
                 <View style={styles.item} key={`command${index}`}>
                   <Button
-                    style={styles.button}
+                    contentStyle={styles.buttonContent}
                     onPress={async () => {
                       const data = await snsClient.send(command)
                       console.log(data)
@@ -147,13 +152,8 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 20,
   },
-  button: {
-    width: '100%',
+  buttonContent: {
     minHeight: 70,
-    minWidth: 70,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   list: {
     display: 'flex',
