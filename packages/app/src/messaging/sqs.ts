@@ -24,6 +24,8 @@ export const sqsClient = new SQSClient({
 const hitTheRobotForMessages = async () => {
   const receiveMessageFromBot = new ReceiveMessageCommand({
     QueueUrl: queueForAppToConsumeUrl,
+    MaxNumberOfMessages: 1,
+    WaitTimeSeconds: 20,
   })
 
   return sqsClient.send(receiveMessageFromBot)
@@ -38,33 +40,31 @@ const deleteMessageFromBotQueue = async (handle: string) => {
   return sqsClient.send(removeMessageFromBotQueue)
 }
 
-export const pollForMessages = (
+export const checkForMessage = async (
   onMessage: (message: string) => void,
   onError: (err: Error) => void
 ) => {
-  // just incase it was already called
-  clearInterval(pollingInterval)
-  // start polling the robot
-  pollingInterval = setInterval(async () => {
-    try {
-      const response = await hitTheRobotForMessages()
-      const { Messages } = response
-      Messages?.forEach((message) => {
-        // send the message out
-        const { Body, ReceiptHandle } = message
-        if (!Body || !ReceiptHandle) {
-          onError(new Error('there was no body or handle'))
-          return
-        }
-        const { Message } = JSON.parse(Body)
-        onMessage(Message)
+  try {
+    const response = await hitTheRobotForMessages()
+    const { Messages } = response
+    Messages?.forEach((message) => {
+      // send the message out
+      const { Body, ReceiptHandle } = message
+      if (!Body || !ReceiptHandle) {
+        onError(new Error('there was no body or handle'))
+        return
+      }
+      const { Message } = JSON.parse(Body)
+      onMessage(Message)
 
-        // remove the message
-        deleteMessageFromBotQueue(ReceiptHandle)
-      })
-    } catch (err) {
-      onError(new Error(err))
-      return
-    }
-  }, 3000)
+      // remove the message
+      deleteMessageFromBotQueue(ReceiptHandle)
+
+      // open the long poll again
+      checkForMessage(onMessage, onError)
+    })
+  } catch (err) {
+    onError(new Error(err))
+    return
+  }
 }

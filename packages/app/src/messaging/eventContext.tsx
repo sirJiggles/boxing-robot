@@ -4,7 +4,7 @@ import React, {
   useState,
   FunctionComponent,
 } from 'react'
-import { pollForMessages } from './sqs'
+import { checkForMessage } from './sqs'
 import { RobotState } from '../types'
 
 const useEvent = () => {
@@ -25,9 +25,8 @@ const EventProvider: FunctionComponent = ({ children }) => {
     throw err
   }
 
-  // just start polling when the app is running and leave it on for now
-  // we can pass this state in to our provider
-  pollForMessages(onMessage, onError)
+  // start the recursive long polling
+  checkForMessage(onMessage, onError)
 
   return (
     <EventContext.Provider value={{ robotState }}>
