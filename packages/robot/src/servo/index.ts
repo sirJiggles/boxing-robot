@@ -4,8 +4,8 @@ import { setTimeout, setInterval } from 'timers'
 let arms: Servo[] = []
 let backRecoveryInterval: NodeJS.Timer
 const armMovingOut = [false, false, false, false]
-export const armSpeed = 450
-const outAngle =  80
+export const armSpeed = 400
+const outAngle = 20
 const inAngle = 140
 
 const startBackRecovery = () => {
@@ -43,8 +43,6 @@ export const armsOut = () => {
     back(index)
   })
 }
-
-
 
 export const back = (arm: number) => {
   console.log(`arm ${arm} back`)
