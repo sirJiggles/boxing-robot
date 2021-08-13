@@ -7,8 +7,6 @@ import {
 import { AppConfig } from '../types'
 import Constants from 'expo-constants'
 
-let pollingInterval: NodeJS.Timer
-
 const config = Constants as unknown as AppConfig
 const { region, accessKeyId, secretAccessKey, queueForAppToConsumeUrl } =
   config.manifest.extra
