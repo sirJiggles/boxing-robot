@@ -36,28 +36,30 @@ export const BashArms: FunctionComponent = () => {
       <Card.Title title='Bash the arms' />
       <Card.Content>
         <View style={styles.list}>
-          <Image
-            source={require('../../../assets/images/bob.png')}
-            style={styles.bobImage}
-            resizeMode='contain'
-          />
-          {commands.map((command, index) => {
-            return (
-              // @ts-ignore
-              <View style={styles[`button${index}`]} key={`command${index}`}>
-                <Button
-                  contentStyle={styles.buttonContent}
-                  onPress={async () => {
-                    const data = await snsClient.send(command)
-                    console.log(data)
-                  }}
-                  mode='contained'
-                >
-                  {index + 1}
-                </Button>
-              </View>
-            )
-          })}
+          <View style={styles.inner}>
+            <Image
+              source={require('../../../assets/images/bob.png')}
+              style={styles.bobImage}
+              resizeMode='contain'
+            />
+            {commands.map((command, index) => {
+              return (
+                // @ts-ignore
+                <View style={styles[`button${index}`]} key={`command${index}`}>
+                  <Button
+                    contentStyle={styles.buttonContent}
+                    onPress={async () => {
+                      const data = await snsClient.send(command)
+                      console.log(data)
+                    }}
+                    mode='contained'
+                  >
+                    {index + 1}
+                  </Button>
+                </View>
+              )
+            })}
+          </View>
         </View>
       </Card.Content>
     </Card>
@@ -76,7 +78,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: '100%',
+
+    justifyContent: 'center',
+  },
+  inner: {
     position: 'relative',
+    width: 370,
   },
   button0: {
     top: 140,
@@ -89,18 +96,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   button2: {
-    top: 230,
+    top: 220,
     left: 0,
     position: 'absolute',
   },
   button3: {
-    top: 230,
+    top: 220,
     right: 0,
     position: 'absolute',
   },
   bobImage: {
     width: '100%',
     height: 600,
-    backgroundColor: 'transparent',
   },
 })
