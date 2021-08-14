@@ -43,6 +43,7 @@ export const BashArms: FunctionComponent = () => {
           />
           {commands.map((command, index) => {
             return (
+              // @ts-ignore
               <View style={styles[`button${index}`]} key={`command${index}`}>
                 <Button
                   contentStyle={styles.buttonContent}
