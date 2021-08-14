@@ -43,7 +43,7 @@ export const BashArms: FunctionComponent = () => {
           />
           {commands.map((command, index) => {
             return (
-              <View style={styles.item} key={`command${index}`}>
+              <View style={styles[`button${index}`]} key={`command${index}`}>
                 <Button
                   contentStyle={styles.buttonContent}
                   onPress={async () => {
@@ -75,10 +75,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: '100%',
+    position: 'relative',
   },
-  item: {
-    width: '50%',
-    padding: 20,
+  button0: {
+    top: 140,
+    left: 50,
+    position: 'absolute',
+  },
+  button1: {
+    top: 140,
+    right: 50,
+    position: 'absolute',
+  },
+  button2: {
+    top: 230,
+    left: 0,
+    position: 'absolute',
+  },
+  button3: {
+    top: 230,
+    right: 0,
+    position: 'absolute',
   },
   bobImage: {
     width: '100%',
