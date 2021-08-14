@@ -4,9 +4,9 @@ import { setTimeout, setInterval } from 'timers'
 let arms: Servo[] = []
 let backRecoveryInterval: NodeJS.Timer
 const armMovingOut = [false, false, false, false]
-export const armSpeed = 400
-const outAngle = 20
-const inAngle = 140
+export const armSpeed = 700
+const outAngle = 180
+const inAngle = 50
 
 const startBackRecovery = () => {
   clearInterval(backRecoveryInterval)
