@@ -3,7 +3,7 @@ import { doHit } from '../combat'
 import { WorkoutConfig, Message, Config } from '../types'
 import { start, stop } from '../workout'
 import { snsClient } from './sns'
-import { pollForMessages } from './sqs'
+import { checkForMessage } from './sqs'
 
 const { topicForRobotToPostToArn } = process.env as Config
 
@@ -33,9 +33,9 @@ export const onError = () => {
   stop()
 }
 
-// start polling for messages from the front end
-export const startPolling = () => {
-  pollForMessages(onMessage, onError, 1000)
+// start polling by calling the recursive check for message function
+export const initPolling = () => {
+  checkForMessage(onMessage, onError)
 }
 
 export const sendMessage = async (message: Message) => {

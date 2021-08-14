@@ -7,8 +7,6 @@ import {
   DeleteMessageCommand,
 } from '@aws-sdk/client-sqs'
 
-let pollingInterval: NodeJS.Timer
-
 export const sqsClient = new SQSClient({
   region,
   credentials: {
@@ -20,6 +18,7 @@ export const sqsClient = new SQSClient({
 const hitTheRobotForMessages = async () => {
   const receiveMessageFromBot = new ReceiveMessageCommand({
     QueueUrl: queueForRobotToConsumeUrl,
+    WaitTimeSeconds: 20,
   })
 
   return sqsClient.send(receiveMessageFromBot)
@@ -34,34 +33,36 @@ const deleteMessageFromBotQueue = async (handle: string) => {
   return sqsClient.send(removeMessageFromBotQueue)
 }
 
-export const pollForMessages = (
+export const checkForMessage = async (
   onMessage: (message: string) => void,
-  onError: () => void,
-  duration = 30000
+  onError: () => void
 ) => {
-  // just incase it was already called
-  clearInterval(pollingInterval)
-  // start polling the robot
-  pollingInterval = setInterval(async () => {
-    try {
-      const response = await hitTheRobotForMessages()
-      const { Messages } = response
-      Messages?.forEach((message) => {
-        // send the message out
-        const { Body, ReceiptHandle } = message
-        if (!Body || !ReceiptHandle) {
-          onError()
-          throw new Error('there was no body or handle')
-        }
-        const { Message } = JSON.parse(Body)
-        onMessage(Message)
-
-        // remove the message
-        deleteMessageFromBotQueue(ReceiptHandle)
-      })
-    } catch (err) {
-      onError()
-      throw new Error(err)
+  try {
+    const response = await hitTheRobotForMessages()
+    const { Messages } = response
+    // if we got back no message in the response start to poll again
+    if (!Messages?.length) {
+      checkForMessage(onMessage, onError)
+      return
     }
-  }, duration)
+    for (const message of Messages) {
+      // send the message out
+      const { Body, ReceiptHandle } = message
+      if (!Body || !ReceiptHandle) {
+        onError()
+        throw new Error('there was no body or handle')
+      }
+      const { Message } = JSON.parse(Body)
+      onMessage(Message)
+
+      // remove the message
+      await deleteMessageFromBotQueue(ReceiptHandle)
+
+      // open the long poll again
+      checkForMessage(onMessage, onError)
+    }
+  } catch (err) {
+    onError()
+    throw new Error(err)
+  }
 }

@@ -45,7 +45,12 @@ export const checkForMessage = async (
   try {
     const response = await hitTheRobotForMessages()
     const { Messages } = response
-    Messages?.forEach((message) => {
+    // if we got back no message in the response start to poll again
+    if (!Messages?.length) {
+      checkForMessage(onMessage, onError)
+      return
+    }
+    for (const message of Messages) {
       // send the message out
       const { Body, ReceiptHandle } = message
       if (!Body || !ReceiptHandle) {
@@ -56,11 +61,11 @@ export const checkForMessage = async (
       onMessage(Message)
 
       // remove the message
-      deleteMessageFromBotQueue(ReceiptHandle)
+      await deleteMessageFromBotQueue(ReceiptHandle)
 
       // open the long poll again
       checkForMessage(onMessage, onError)
-    })
+    }
   } catch (err) {
     onError(new Error(err))
     return

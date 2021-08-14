@@ -7,12 +7,12 @@ dotenv.config()
 import * as five from 'johnny-five'
 import { initArms } from './src/servo'
 import { RaspiIO } from 'raspi-io'
-import { sendMessage, startPolling } from './src/events'
+import { initPolling, sendMessage } from './src/events'
 import { Message } from './src/types'
 
-
 sendMessage(Message.starting)
-startPolling()
+
+initPolling()
 
 const board = new five.Board({
   io: new RaspiIO(),
