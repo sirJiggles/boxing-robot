@@ -3,7 +3,7 @@ import { Servo } from 'johnny-five'
 let arms: Servo[] = []
 export const armSpeed = 700
 const outAngle = 180
-const inAngle = 40
+const inAngle = 50
 
 
 export const initArms = () => {
@@ -23,11 +23,11 @@ export const initArms = () => {
 
 // move all the arms back
 export const armsOut = async () => {
-  let index = 1
+  let index = 0
   for (const arm of arms) {
     arm.stop()
-    index ++
     await back(index)
+    index ++
   }
 }
 
@@ -37,7 +37,7 @@ export const back = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(outAngle, armSpeed)
+  servo.to(arm < 2 ? outAngle - 40 : outAngle, armSpeed)
 }
 
 export const out = (arm: number) => {
@@ -46,5 +46,5 @@ export const out = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(inAngle, armSpeed)
+  servo.to(arm < 2 ? inAngle - 20 : inAngle, armSpeed)
 }
