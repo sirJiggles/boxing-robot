@@ -66,26 +66,24 @@ export const doHit = async (
     out(number)
     armsOut[number] = true
 
-    // timeout to come back
-    setTimeout(() => {
-      back(number)
-      armsOut[number] = false      
-    }, armSpeed)
-
     // if we are in a combo and the next arm is not the same as the one
     // that just hit already start the next arm
-    if (asCombo && nextArm !== arm) {
-      // we will say we are done when two thrids through the move
-      setTimeout(() => {
-        resolve(true)  
-      }, armSpeed / 3 * 2)
-      return
-    }
-
-    // give it time to get back (it might need to go out again)
     setTimeout(() => {
-      // resolve the async func
-      resolve(true)
+      if (asCombo && nextArm !== arm) {
+        resolve(true)
+        return
+      }
+    }, armSpeed / 3 * 2)
+
+    setTimeout(() => {
+      back(number)
+      armsOut[number] = false
+
+      // give it time to get back (it might need to go out again)
+      setTimeout(() => {
+        // resolve the async func
+        resolve(true)
+      }, armSpeed)
     }, armSpeed)
   })
 }

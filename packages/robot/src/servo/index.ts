@@ -3,7 +3,7 @@ import { Servo } from 'johnny-five'
 let arms: Servo[] = []
 export const armSpeed = 700
 const outAngle = 180
-const inAngle = 30
+const inAngle = 40
 
 
 export const initArms = () => {
@@ -22,11 +22,13 @@ export const initArms = () => {
 }
 
 // move all the arms back
-export const armsOut = () => {
-  arms.forEach((arm, index) => {
+export const armsOut = async () => {
+  let index = 1
+  for (const arm of arms) {
     arm.stop()
-    back(index)
-  })
+    index ++
+    await back(index)
+  }
 }
 
 export const back = (arm: number) => {
