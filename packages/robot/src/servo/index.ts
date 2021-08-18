@@ -1,9 +1,9 @@
 import { Servo } from 'johnny-five'
 
 let arms: Servo[] = []
-export const armSpeed = 700
+export const armSpeed = 500
 const outAngle = 180
-const inAngle = 60
+const inAngle = 50
 
 
 export const initArms = () => {
@@ -37,7 +37,7 @@ export const back = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(outAngle, armSpeed)
+  servo.to(outAngle)
 }
 
 export const out = (arm: number) => {
@@ -46,5 +46,5 @@ export const out = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(arm < 2 ? inAngle - 20 : inAngle, armSpeed)
+  servo.to(arm < 2 ? inAngle - 20 : inAngle)
 }

@@ -1,3 +1,4 @@
+import { resolve } from 'path'
 import { back, out, armSpeed } from '../servo'
 
 // state for what is out and in, start up all up
@@ -13,16 +14,11 @@ const randomIntFromInterval = (min: number, max: number) => {
 const combos = [
   [1, 1, 2],
   [1, 1, 2],
-  [1, 1, 2],
-  [1, 2, 3],
   [1, 2, 3],
   [1, 2, 3],
   [1],
   [1, 2],
-  [1, 2],
   [1, 1],
-  [1, 1],
-  [1, 2, 3, 4],
   [1, 2, 3, 4],
   [1, 2, 3, 4],
   [2],
@@ -66,24 +62,21 @@ export const doHit = async (
     out(number)
     armsOut[number] = true
 
-    // if we are in a combo and the next arm is not the same as the one
-    // that just hit already start the next arm
-    setTimeout(() => {
-      if (asCombo && nextArm !== arm) {
-        resolve(true)
-        return
-      }
-    }, armSpeed / 3 * 2)
-
+    
     setTimeout(() => {
       back(number)
       armsOut[number] = false
-
-      // give it time to get back (it might need to go out again)
-      setTimeout(() => {
-        // resolve the async func
+      // if we are in a combo and the next arm is not the same as the one
+      // that just hit already start the next arm
+      if (asCombo && nextArm !== arm) {
         resolve(true)
-      }, armSpeed)
+      } else {
+        // give it time to get back (it might need to go out again)
+        setTimeout(() => {
+          // resolve the async func
+          resolve(true)
+        }, armSpeed)
+      }
     }, armSpeed)
   })
 }
@@ -111,5 +104,5 @@ export const doCombo = () => {
   // when starting a combo, say we are now processing one
   processingCombo = true
   // do the next combo between x and y seconds from now if not already doing one
-  comboTimeout = setTimeout(startCombo, randomIntFromInterval(1, 2) * 1000)
+  comboTimeout = setTimeout(startCombo, randomIntFromInterval(2, 4) * 1000)
 }
