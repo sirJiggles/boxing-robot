@@ -21,7 +21,7 @@ export const initArms = () => {
   return arms
 }
 
-// move all the arms back
+// move all the arms back but stagger it to not get a surge
 export const armsOut = async () => {
   let index = 0
   for (const arm of arms) {
