@@ -30,19 +30,19 @@ export const Workout: FunctionComponent = () => {
   })
   return (
     <Card style={styles.card}>
-      <Card.Title title='Start a workout' />
+      <Card.Title title="Start a workout" />
       <Card.Content>
         <View style={styles.list}>
           <View style={styles.item}>
             <TextInput
-              label='Duration (in mins)'
+              label="Duration (in mins)"
               value={duration}
               onChangeText={(text) => setDuration(text)}
             />
           </View>
           <View style={styles.item}>
             <TextInput
-              label='Difficulty (0-10)'
+              label="Difficulty (0-10)"
               value={difficulty}
               onChangeText={(text) => setDifficulty(text)}
             />
@@ -53,7 +53,7 @@ export const Workout: FunctionComponent = () => {
               onPress={async () => {
                 await snsClient.send(startWorkoutCommand)
               }}
-              mode='contained'
+              mode="contained"
               disabled={robotState === RobotState.busy}
             >
               Start workout
@@ -69,7 +69,7 @@ export const Workout: FunctionComponent = () => {
                 robotState === RobotState.ready ||
                 robotState === RobotState.starting
               }
-              mode='contained'
+              mode="contained"
             >
               Stop workout
             </Button>

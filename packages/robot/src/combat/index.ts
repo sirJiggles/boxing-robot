@@ -1,4 +1,3 @@
-import { resolve } from 'path'
 import { back, out, armSpeed } from '../servo'
 
 // state for what is out and in, start up all up
@@ -26,14 +25,14 @@ const combos = [
   [4],
   [4, 3],
   [4, 3],
-  [2,3,4],
-  [1,2,3,1],
-  [2,2],
-  [1,3,4],
-  [4,3],
-  [3,4],
-  [4,4],
-  [3,3]
+  [2, 3, 4],
+  [1, 2, 3, 1],
+  [2, 2],
+  [1, 3, 4],
+  [4, 3],
+  [3, 4],
+  [4, 4],
+  [3, 3],
 ]
 
 // state to let people know, we are working on a combo
@@ -44,7 +43,7 @@ export const doHit = async (
   asCombo?: boolean,
   nextArm?: number
 ) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     // if doing a hit as part of a combo but now we should not
     // be processing one, just bail from here
     if (asCombo && !processingCombo) {
@@ -62,7 +61,6 @@ export const doHit = async (
     out(number)
     armsOut[number] = true
 
-    
     setTimeout(() => {
       back(number)
       armsOut[number] = false

@@ -1,5 +1,5 @@
 {
-  "name": "@boxing-robot/eslint",
+  "name": "@boxing-robot/eslint-config",
   "version": "1.0.0",
   "description": "Eslint rules for the monorepo",
   "main": "index.js",
@@ -13,7 +13,11 @@
     "lint": "eslint $npm_package_main"
   },
   "peerDependencies": {
-    "eslint": "^7.12.1"
+    "eslint": "^7.x.x",
+    "@typescript-eslint/eslint-plugin": "^4.x.x",
+    "eslint-config-prettier": "^6.x.x",
+    "eslint-plugin-prettier": "^3.x.x",
+    "prettier": "^2.x.x"
   },
   "devDependencies": {
     "eslint": "^7.12.1"

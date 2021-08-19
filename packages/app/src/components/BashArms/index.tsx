@@ -33,14 +33,14 @@ const commands = [
 export const BashArms: FunctionComponent = () => {
   return (
     <Card style={styles.card}>
-      <Card.Title title='Bash the arms' />
+      <Card.Title title="Bash the arms" />
       <Card.Content>
         <View style={styles.list}>
           <View style={styles.inner}>
             <Image
               source={require('../../../assets/images/bob.png')}
               style={styles.bobImage}
-              resizeMode='contain'
+              resizeMode="contain"
             />
             {commands.map((command, index) => {
               return (
@@ -52,7 +52,7 @@ export const BashArms: FunctionComponent = () => {
                       const data = await snsClient.send(command)
                       console.log(data)
                     }}
-                    mode='contained'
+                    mode="contained"
                   >
                     {index + 1}
                   </Button>

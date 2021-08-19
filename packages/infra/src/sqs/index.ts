@@ -1,11 +1,7 @@
 import * as aws from '@pulumi/aws'
 import * as pulumi from '@pulumi/pulumi'
 
-const sqsQueuePolicy = (
-  name: string,
-  queue: aws.sqs.Queue,
-  topic: aws.sns.Topic
-) => {
+const sqsQueuePolicy = (name: string, queue: aws.sqs.Queue) => {
   return new aws.sqs.QueuePolicy(name, {
     queueUrl: queue.id,
     policy: pulumi.interpolate`{

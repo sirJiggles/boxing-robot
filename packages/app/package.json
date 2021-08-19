@@ -21,10 +21,15 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
-    "@boxing-robot/eslint": "1.0.0",
+    "@boxing-robot/eslint-config": "1.0.0",
     "@pulumi/pulumi": "^3.9.1",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "eslint": "^7.12.1",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2",
     "typescript": "~4.0.0"
   },
   "scripts": {
@@ -34,6 +39,7 @@
     "ios": "yarn run config && expo start --ios --clear",
     "web": "yarn run config && expo start --web --clear",
     "webBare": "expo start --web --clear",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "eslint '**/*.{js,ts,tsx}' --fix"
   }
 }
