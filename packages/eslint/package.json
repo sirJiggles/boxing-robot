@@ -1,5 +1,5 @@
 {
-  "name": "@boxing-robot/eslint-config",
+  "name": "@boxing-robot/eslint",
   "version": "1.0.0",
   "description": "Eslint rules for the monorepo",
   "main": "index.js",
@@ -23,6 +23,7 @@
     "@typescript-eslint/parser": "^4.6.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "typescript": "^4.3.5"
   }
 }
