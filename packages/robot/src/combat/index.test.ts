@@ -64,7 +64,7 @@ describe('Unit | combat', () => {
       expect(util.inspect(p).includes('pending')).toBeFalsy()
     })
 
-    it('should allow the arm time to get back if in combo and next hit is the same arm', async () => {
+    it('should not resolve so quick if the same arm is the next one in the combo', async () => {
       const manager = new CombatManager()
       manager.processingCombo = true
       const p = manager.doHit({ arm: 1, nextArm: 1, asCombo: true })
@@ -72,6 +72,16 @@ describe('Unit | combat', () => {
       await new Promise((r) => setTimeout(r, armSpeed))
       // the promise p should still be pending as we are also coming back now
       expect(util.inspect(p).includes('pending')).toBeTruthy()
+    })
+
+    it('should resolve after the speed to come in and out if the same arm is the next one in the combo', async () => {
+      const manager = new CombatManager()
+      manager.processingCombo = true
+      const p = manager.doHit({ arm: 1, nextArm: 1, asCombo: true })
+      // pause for the time it takes to get the arm our
+      await new Promise((r) => setTimeout(r, armSpeed * 2 + 100))
+      // the promise p should no longer be pending as we are also coming back now
+      expect(util.inspect(p).includes('pending')).toBeFalsy()
     })
   })
 
