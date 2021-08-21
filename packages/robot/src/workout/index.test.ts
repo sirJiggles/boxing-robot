@@ -28,6 +28,9 @@ jest.mock('../combat', () => {
 // hide the logs
 console.log = jest.fn()
 
+// fake timers so we can run tests fast
+jest.useFakeTimers()
+
 describe('UNIT | workout', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -35,10 +38,10 @@ describe('UNIT | workout', () => {
   it('should keep calling tick only while the workout is running', async () => {
     const manager = new WorkoutManager()
     const tickSpy = jest.spyOn(manager, 'tick')
-    manager.start({ duration: 0.3 })
+    manager.start({ duration: 0.4 })
     // wait for 3 ticks
-    await new Promise((r) => setTimeout(r, 3000))
-    expect(tickSpy).toBeCalledTimes(3)
+    jest.advanceTimersByTime(3500)
+    expect(tickSpy).toBeCalledTimes(4)
     manager.stop()
   })
 
@@ -47,7 +50,7 @@ describe('UNIT | workout', () => {
     const stopSpy = jest.spyOn(manager, 'stop')
     manager.start({ duration: 0.01 })
     // wait for 1 tick
-    await new Promise((r) => setTimeout(r, 1500))
+    jest.advanceTimersByTime(1500)
     expect(stopSpy).toBeCalledTimes(1)
   })
 

@@ -1,10 +1,7 @@
 import { back, out, armSpeed } from '../servo'
 import { combos } from './combos'
+import { randomIntFromInterval } from './numbers'
 import { ICombatManager } from '../types'
-
-const randomIntFromInterval = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
 
 export class CombatManager implements ICombatManager {
   // state for what is out and in, start up all up
@@ -44,16 +41,17 @@ export class CombatManager implements ICombatManager {
 
       setTimeout(() => {
         back(number)
-        this.armsOut[number] = false
         // if we are in a combo and the next arm is not the same as the one
         // that just hit already start the next arm
         if (asCombo && nextArm !== arm) {
           resolve(true)
+          this.armsOut[number] = false
         } else {
           // give it time to get back (it might need to go out again)
           setTimeout(() => {
             // resolve the async func
             resolve(true)
+            this.armsOut[number] = false
           }, armSpeed)
         }
       }, armSpeed)
