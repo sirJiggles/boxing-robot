@@ -1,11 +1,12 @@
 import { back, out, armSpeed } from '../servo'
 import { combos } from './combos'
+import { ICombatManager } from '../types'
 
 const randomIntFromInterval = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-export class CombatManager {
+export class CombatManager implements ICombatManager {
   // state for what is out and in, start up all up
   armsOut = [false, false, false, false]
   comboTimeout: NodeJS.Timeout | undefined

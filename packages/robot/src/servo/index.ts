@@ -15,7 +15,7 @@ export const initArms = () => {
     new Servo({ pin: 'GPIO26', ...options }),
     new Servo({ pin: 'GPIO20', ...options }),
   ]
-  // calabrate the servos
+  // calibrate the servos
   arms.forEach((arm) => arm.stop())
   return arms
 }

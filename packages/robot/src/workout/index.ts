@@ -1,16 +1,22 @@
-import { doCombo, processingCombo, stopHits } from '../combat'
+import { CombatManager } from '../combat'
 import { sendMessage } from '../events'
 import { armsOut, armsIn } from '../servo'
-import { Message } from '../types'
+import { IWorkoutManager, Message } from '../types'
 
 // given the state the workout manager needs to keep hold of a class seems to make
 // more sense right now, it also makes thins simpler to test as all deps are
 // locked in
-export class WorkoutManager {
+export class WorkoutManager implements IWorkoutManager {
   running = false
   workoutDuration = 0
   timeSpentWorkingOut = 0
   tickInterval: NodeJS.Timeout | undefined
+  combatManager: CombatManager
+
+  constructor() {
+    // each instance of a workout manager should have a combat manager
+    this.combatManager = new CombatManager()
+  }
 
   tick() {
     // just bail if not running, means we were already stopped
@@ -18,8 +24,8 @@ export class WorkoutManager {
       return
     }
     if (this.workoutDuration > this.timeSpentWorkingOut) {
-      if (!processingCombo) {
-        doCombo()
+      if (!this.combatManager.processingCombo) {
+        this.combatManager.doCombo()
       }
       this.timeSpentWorkingOut += 1
       return
@@ -36,13 +42,13 @@ export class WorkoutManager {
     }
     this.running = false
     this.workoutDuration = 0
-    stopHits()
+    this.combatManager.stopHits()
     armsIn()
     // let everyone know the bot is again free
     sendMessage(Message.ready)
   }
 
-  start(duration: number) {
+  start({ duration }: { duration: number }) {
     console.log('workout started')
     armsOut()
     this.running = true

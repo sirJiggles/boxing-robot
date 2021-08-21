@@ -1,5 +1,4 @@
 import { PublishCommand } from '@aws-sdk/client-sns'
-import { doHit } from '../combat'
 import { WorkoutConfig, Message, Config } from '../types'
 import { WorkoutManager } from '../workout'
 import { snsClient } from './sns'
@@ -14,7 +13,7 @@ const onMessage = (message: string, workoutManager: WorkoutManager) => {
 
   // if we can convert the message to a number, it is an instruction to move an arm
   if (messageAsNumber) {
-    doHit(messageAsNumber)
+    workoutManager.combatManager.doHit({ arm: messageAsNumber })
     return
   }
 
@@ -25,7 +24,7 @@ const onMessage = (message: string, workoutManager: WorkoutManager) => {
 
   // if we are here it was a start workout command
   const workoutConfig = JSON.parse(message) as WorkoutConfig
-  workoutManager.start(workoutConfig.duration)
+  workoutManager.start({ duration: workoutConfig.duration })
 }
 
 // just stop all the things on error
