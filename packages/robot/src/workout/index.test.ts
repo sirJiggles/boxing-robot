@@ -2,46 +2,28 @@ import { sendMessage } from '../events'
 import { armsOut, armsIn } from '../servo'
 import { Message } from '../types'
 import { WorkoutManager } from './'
-import { ICombatManager } from '../types'
-import { CombatManager } from '../combat'
-
-class ComboMock implements ICombatManager {
-  processingCombo = false
-  comboTimeout = undefined
-  armsOut = [false, false]
-  doHit = () => {
-    return undefined
-  }
-  startCombo = () => {
-    return undefined
-  }
-  stopHits = () => {
-    return undefined
-  }
-  doCombo = () => {
-    return undefined
-  }
-}
 
 jest.mock('../events')
 jest.mock('../servo')
 jest.mock('../combat', () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      doHit: () => {
-        return undefined
-      },
-      startCombo: () => {
-        return undefined
-      },
-      stopHits: () => {
-        return undefined
-      },
-      doCombo: () => {
-        return undefined
-      },
-    }
-  })
+  return {
+    CombatManager: jest.fn().mockImplementation(() => {
+      return {
+        doHit: () => {
+          return undefined
+        },
+        startCombo: () => {
+          return undefined
+        },
+        stopHits: () => {
+          return undefined
+        },
+        doCombo: () => {
+          return undefined
+        },
+      }
+    }),
+  }
 })
 // hide the logs
 console.log = jest.fn()
