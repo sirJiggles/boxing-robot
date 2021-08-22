@@ -1,14 +1,10 @@
 import React, { FunctionComponent } from 'react'
-import { Chip } from 'react-native-paper'
-import { Layout } from '../../components/Layout'
 import { RobotState } from '../../types'
+import { Chip } from 'react-native-paper'
 import { StyleSheet } from 'react-native'
-
 import { useEvent } from '../../messaging/eventContext'
-import { BashArms } from '../../components/BashArms'
-import { Workout } from '../../components/Workout'
 
-export const Home: FunctionComponent = () => {
+export const RobotStateIndicator: FunctionComponent = () => {
   const { robotState } = useEvent()
 
   const icon = () => {
@@ -23,18 +19,14 @@ export const Home: FunctionComponent = () => {
   }
 
   return (
-    <Layout>
-      <Chip
-        style={styles.chip}
-        icon={icon()}
-        disabled={robotState === RobotState.busy}
-        selected={robotState === RobotState.ready}
-      >
-        {robotState}
-      </Chip>
-      <Workout />
-      <BashArms />
-    </Layout>
+    <Chip
+      style={styles.chip}
+      icon={icon()}
+      disabled={robotState === RobotState.busy}
+      selected={robotState === RobotState.ready}
+    >
+      {robotState}
+    </Chip>
   )
 }
 
