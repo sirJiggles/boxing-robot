@@ -15,7 +15,7 @@ export const en = {
       difficulty: {
         label: 'Difficulty',
         description:
-          'The higher the difficulty the longer the combos are likely to be.',
+          'The higher the difficulty the shorter the breaks between each hit in a combo',
       },
       pause_duration: {
         label: 'Pause duration',

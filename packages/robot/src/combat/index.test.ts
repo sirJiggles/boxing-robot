@@ -3,13 +3,13 @@ import { out, back } from '../servo'
 import * as util from 'util'
 
 // you cannot use this in the mock, the mock is loaded first
-const armSpeed = 100
+const armSpeed = 300
 
 jest.mock('../servo', () => {
   return {
     out: jest.fn(),
     back: jest.fn(),
-    armSpeed: 100,
+    armSpeed: 300,
   }
 })
 
@@ -152,6 +152,39 @@ describe('Unit | combat', () => {
       await new Promise((r) => setTimeout(r, 1))
       expect(time).toBeGreaterThanOrEqual(3)
       expect(time).toBeLessThanOrEqual(5)
+    })
+  })
+  describe('difficulty based hit speed in a combo', () => {
+    it('should wait less time between hits when the difficulty is higher', async () => {
+      const manager = new CombatManager()
+      // the config that normally gets handed from the workout manager
+      manager.config = {
+        difficulty: 9,
+        pauseDuration: 4,
+        duration: 0.1,
+      }
+      manager.processingCombo = true
+      const p = manager.doHit({ arm: 1, nextArm: 2, asCombo: true })
+      // pause for arm speed - 20 * 9 as we remove 20ms for every
+      await new Promise((r) => setTimeout(r, armSpeed - 20 * 9))
+      // the promise p should be resolved by now
+      expect(util.inspect(p).includes('pending')).toBeFalsy()
+    })
+
+    it('should wait more time between hits when the difficulty is lower', async () => {
+      const manager = new CombatManager()
+      // the config that normally gets handed from the workout manager
+      manager.config = {
+        difficulty: 0,
+        pauseDuration: 4,
+        duration: 0.1,
+      }
+      manager.processingCombo = true
+      const p = manager.doHit({ arm: 1, nextArm: 2, asCombo: true })
+      // pause for arm speed - 20 * 9 as we remove 20ms for every
+      await new Promise((r) => setTimeout(r, armSpeed))
+      // the promise p should be resolved by now
+      expect(util.inspect(p).includes('pending')).toBeFalsy()
     })
   })
 })
