@@ -13,7 +13,7 @@ type ScrollContextValue = {
 
 const initialValue = {
   scrollEnabled: false,
-  setScrollEnabled: undefined
+  setScrollEnabled: undefined,
 } as ScrollContextValue
 
 const ScrollContext = createContext(initialValue)
