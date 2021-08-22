@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import { BottomNavigation } from 'react-native-paper'
 import { WorkoutPage } from '../../pages/workout'
-import { ArmsPage } from '../../pages/arms'
+import { RemotePage } from '../../pages/remote'
 import { useTranslation } from 'react-i18next'
 
 export const Navigation: FunctionComponent = () => {
@@ -14,7 +14,7 @@ export const Navigation: FunctionComponent = () => {
 
   const renderScene = BottomNavigation.SceneMap({
     workout: WorkoutPage,
-    remote: ArmsPage,
+    remote: RemotePage,
   })
 
   return (

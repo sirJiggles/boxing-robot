@@ -20,12 +20,6 @@ jest.mock('./combos', () => {
   }
 })
 
-jest.mock('./numbers', () => {
-  return {
-    randomIntFromInterval: () => 0,
-  }
-})
-
 describe('Unit | combat', () => {
   beforeEach(() => {
     jest.resetAllMocks()
@@ -117,13 +111,47 @@ describe('Unit | combat', () => {
       const manager = new CombatManager()
       // mock start combo, so it also does not reset the processing combo flag
       manager.startCombo = jest.fn()
+      manager.config = {
+        difficulty: 1,
+        duration: 1,
+        pauseDuration: 0,
+      }
       manager.doCombo()
-      // go just one tick of the event loop, we mock the 'randomIntFromInterval'
-      // to always return 0, so the do combo function will wait one tick before
-      // calling startCombo, little crappy to have to do this but it is ok
       await new Promise((r) => setTimeout(r, 1))
       expect(manager.processingCombo).toEqual(true)
       expect(manager.startCombo).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('pause duration config for combos', () => {
+    it('should have less of a pause with a lower value', async () => {
+      const manager = new CombatManager()
+      // the config that normally gets handed from the workout manager
+      manager.config = {
+        difficulty: 5,
+        pauseDuration: 1,
+        duration: 0.1,
+      }
+      // mock start combo, so it also does not reset the processing combo flag
+      manager.startCombo = jest.fn()
+      const time = manager.doCombo()
+      await new Promise((r) => setTimeout(r, 1))
+      expect(time).toBeLessThanOrEqual(2)
+    })
+    it('should have more of a pause with a lower value', async () => {
+      const manager = new CombatManager()
+      // the config that normally gets handed from the workout manager
+      manager.config = {
+        difficulty: 5,
+        pauseDuration: 4,
+        duration: 0.1,
+      }
+      // mock start combo, so it also does not reset the processing combo flag
+      manager.startCombo = jest.fn()
+      const time = manager.doCombo()
+      await new Promise((r) => setTimeout(r, 1))
+      expect(time).toBeGreaterThanOrEqual(3)
+      expect(time).toBeLessThanOrEqual(5)
     })
   })
 })

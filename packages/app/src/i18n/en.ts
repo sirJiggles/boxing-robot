@@ -1,7 +1,7 @@
 export const en = {
   translation: {
     remote: {
-      control_the_arms: 'Bash the arms',
+      control_the_arms: 'Control the arms',
     },
     navigation: {
       workout: 'Workout',
