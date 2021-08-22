@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     bottom: -2,
     minWidth: width,
     padding: 8,
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.background,
     borderRadius: 5,
   },
   sliderLabelText: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'normal',
     fontSize: 11,
-    color: theme.colors.surface,
+    color: theme.colors.text,
   },
   markerPressed: {},
 })

@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
 import { Select } from '../Select'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { Text, Subheading } from 'react-native-paper'
 import { useTranslation } from 'react-i18next'
+import { theme } from '../Layout/theme'
 
 type RangeInputProps = {
   title: string
@@ -25,8 +26,9 @@ export const RangeInput: FunctionComponent<RangeInputProps> = ({
 }) => {
   const { t } = useTranslation()
   return (
-    <View>
-      <Subheading>{t(title)}</Subheading>
+    <View style={styles.container}>
+      <Subheading style={styles.subHeading}>{t(title)}:</Subheading>
+      {message ? <Text style={styles.message}>{t(message)}</Text> : null}
       <Select
         width={width}
         from={from}
@@ -34,7 +36,25 @@ export const RangeInput: FunctionComponent<RangeInputProps> = ({
         start={start}
         onValueChanged={(value) => onChange(value)}
       />
-      {message ? <Text>{t(message)}</Text> : null}
+      <View style={styles.bottomBorder} />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  subHeading: {
+    color: theme.colors.text,
+  },
+  bottomBorder: {
+    borderColor: theme.colors.background,
+    borderBottomWidth: 1,
+  },
+  container: {
+    borderColor: theme.colors.onSurface,
+    borderBottomWidth: 1,
+  },
+  message: {
+    marginVertical: 5,
+    color: theme.colors.text,
+  },
+})

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Button, Card, Text, Subheading } from 'react-native-paper'
+import { Button, Card } from 'react-native-paper'
 import Constants from 'expo-constants'
 import { AppConfig, RobotState } from '../../types'
 import { View, StyleSheet } from 'react-native'
@@ -48,7 +48,7 @@ export const Workout: FunctionComponent = () => {
             <View style={styles.item}>
               <RangeInput
                 width={width}
-                title='workout.duration.label'
+                title="workout.duration.label"
                 onChange={setDuration}
                 from={0}
                 to={120}
@@ -58,7 +58,8 @@ export const Workout: FunctionComponent = () => {
             <View style={styles.item}>
               <RangeInput
                 width={width}
-                title='workout.difficulty.label'
+                title="workout.difficulty.label"
+                message="workout.difficulty.description"
                 onChange={setDifficulty}
                 from={0}
                 to={10}
@@ -68,9 +69,9 @@ export const Workout: FunctionComponent = () => {
             <View style={styles.item}>
               <RangeInput
                 width={width}
-                title='workout.pause_duration.label'
-                onChange={setDifficulty}
-                message='workout.pause_duration.description'
+                title="workout.pause_duration.label"
+                onChange={setPauseDuration}
+                message="workout.pause_duration.description"
                 from={0}
                 to={10}
                 start={4}
@@ -82,7 +83,7 @@ export const Workout: FunctionComponent = () => {
                 onPress={async () => {
                   await snsClient.send(startWorkoutCommand)
                 }}
-                mode='contained'
+                mode="contained"
                 disabled={robotState === RobotState.busy}
               >
                 {t('workout.start')}
@@ -98,7 +99,7 @@ export const Workout: FunctionComponent = () => {
                   robotState === RobotState.ready ||
                   robotState === RobotState.starting
                 }
-                mode='contained'
+                mode="contained"
               >
                 {t('workout.stop')}
               </Button>
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonContent: {
-    minHeight: 70,
+    minHeight: 50,
   },
   list: {
     display: 'flex',
@@ -125,6 +126,6 @@ const styles = StyleSheet.create({
   },
   item: {
     width: '100%',
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
 })

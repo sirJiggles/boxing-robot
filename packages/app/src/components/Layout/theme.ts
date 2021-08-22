@@ -13,7 +13,7 @@ export const theme: Theme = {
     backdrop: 'pink',
     surface: '#2f364a',
     text: '#f5f0f0',
-    onSurface: 'pink',
+    onSurface: 'rgba(170, 170, 170, 0.3)',
     placeholder: '#aaa',
     // @TODO and this one
     notification: 'green',

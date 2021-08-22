@@ -24,8 +24,7 @@ export const Select: FunctionComponent<SelectArgs> = ({
   return (
     <View
       style={{
-        paddingHorizontal: 20,
-        paddingVertical: 30,
+        marginTop: 30,
       }}
     >
       <MultiSlider
@@ -41,7 +40,7 @@ export const Select: FunctionComponent<SelectArgs> = ({
         }}
         enableLabel
         allowOverlap
-        sliderLength={width - 70}
+        sliderLength={width - 40}
         onValuesChangeStart={() => {
           setScrollEnabled?.(false)
         }}
