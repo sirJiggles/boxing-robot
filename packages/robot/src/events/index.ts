@@ -24,7 +24,7 @@ const onMessage = (message: string, workoutManager: WorkoutManager) => {
 
   // if we are here it was a start workout command
   const workoutConfig = JSON.parse(message) as WorkoutConfig
-  workoutManager.start({ duration: workoutConfig.duration })
+  workoutManager.start(workoutConfig)
 }
 
 // just stop all the things on error

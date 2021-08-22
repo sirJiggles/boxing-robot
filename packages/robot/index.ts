@@ -9,8 +9,6 @@ import { initArms } from './src/servo'
 import { RaspiIO } from 'raspi-io'
 import { initPolling, sendMessage } from './src/events'
 import { Message } from './src/types'
-import { doHit } from './src/combat'
-import { start, stop } from './src/workout'
 
 sendMessage(Message.starting)
 
@@ -29,7 +27,7 @@ board.on('ready', function () {
   })
 
   // make it so we can get the arms in the repl by something a little easier
-  board.repl.inject({ ...replObj, doHit, start, stop })
+  board.repl.inject({ ...replObj })
 
   sendMessage(Message.ready)
 })

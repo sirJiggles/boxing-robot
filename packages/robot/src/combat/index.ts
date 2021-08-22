@@ -1,12 +1,13 @@
 import { back, out, armSpeed } from '../servo'
 import { combos } from './combos'
 import { randomIntFromInterval } from './numbers'
-import { ICombatManager } from '../types'
+import { ICombatManager, WorkoutConfig } from '../types'
 
 export class CombatManager implements ICombatManager {
   // state for what is out and in, start up all up
   armsOut = [false, false, false, false]
   comboTimeout: NodeJS.Timeout | undefined
+  config: WorkoutConfig | undefined
 
   // state to let people know, we are working on a combo
   processingCombo = false
@@ -86,10 +87,22 @@ export class CombatManager implements ICombatManager {
   doCombo = () => {
     // when starting a combo, say we are now processing one
     this.processingCombo = true
+
+    // workout out the interval for the next combo, if nothing set use 2-4 secs as a default
+    const { config } = this
+    let nextComboFrom = 2
+    let nextComboTo = 4
+
+    if (config?.pauseDuration) {
+      const { pauseDuration } = config
+      nextComboFrom = pauseDuration > 1 ? pauseDuration - 1 : pauseDuration
+      nextComboTo = pauseDuration + 1
+    }
+
     // do the next combo between x and y seconds from now if not already doing one
     this.comboTimeout = setTimeout(
       this.startCombo.bind(this),
-      randomIntFromInterval(2, 4) * 1000
+      randomIntFromInterval(nextComboFrom, nextComboTo) * 1000
     )
   }
 }

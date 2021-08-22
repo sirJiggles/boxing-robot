@@ -1,14 +1,14 @@
 import { CombatManager } from '../combat'
 import { sendMessage } from '../events'
 import { armsOut, armsIn } from '../servo'
-import { IWorkoutManager, Message } from '../types'
+import { IWorkoutManager, Message, WorkoutConfig } from '../types'
 
 // given the state the workout manager needs to keep hold of a class seems to make
 // more sense right now, it also makes thins simpler to test as all deps are
 // locked in
 export class WorkoutManager implements IWorkoutManager {
   running = false
-  workoutDuration = 0
+  config: WorkoutConfig | undefined
   timeSpentWorkingOut = 0
   tickInterval: NodeJS.Timeout | undefined
   combatManager: CombatManager
@@ -20,10 +20,10 @@ export class WorkoutManager implements IWorkoutManager {
 
   tick() {
     // just bail if not running, means we were already stopped
-    if (!this.running) {
+    if (!this.running || !this.config) {
       return
     }
-    if (this.workoutDuration > this.timeSpentWorkingOut) {
+    if (this.config.duration * 60 > this.timeSpentWorkingOut) {
       if (!this.combatManager.processingCombo) {
         this.combatManager.doCombo()
       }
@@ -41,18 +41,22 @@ export class WorkoutManager implements IWorkoutManager {
       clearInterval(this.tickInterval)
     }
     this.running = false
-    this.workoutDuration = 0
+    this.config = undefined
     this.combatManager.stopHits()
     armsIn()
     // let everyone know the bot is again free
     sendMessage(Message.ready)
   }
 
-  start({ duration }: { duration: number }) {
+  start(config: WorkoutConfig) {
     console.log('workout started')
     armsOut()
     this.running = true
-    this.workoutDuration = duration * 60
+    // store the config for the workout
+    this.config = config
+    // set the config also on the combat manager instance as they need it too
+    this.combatManager.config = config
+
     // do the first tick call
     this.tick()
     // start the ticker for the workout, every second

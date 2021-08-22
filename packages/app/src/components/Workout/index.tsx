@@ -74,7 +74,7 @@ export const Workout: FunctionComponent = () => {
                 message="workout.pause_duration.description"
                 from={0}
                 to={10}
-                start={4}
+                start={3}
               />
             </View>
             <View style={styles.item}>

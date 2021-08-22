@@ -13,6 +13,7 @@ export type Config = {
 export type WorkoutConfig = {
   duration: number
   difficulty: number
+  pauseDuration: number
 }
 
 export enum Message {
@@ -25,6 +26,7 @@ export enum Message {
 export interface ICombatManager {
   processingCombo: boolean
   comboTimeout: NodeJS.Timeout | undefined
+  config: WorkoutConfig | undefined
   armsOut: boolean[]
   doHit: (options: { arm: number; asCombo?: boolean; nextArm?: number }) => void
   startCombo: () => void
@@ -34,11 +36,11 @@ export interface ICombatManager {
 
 export interface IWorkoutManager {
   running: boolean
-  workoutDuration: number
+  config: WorkoutConfig | undefined
   timeSpentWorkingOut: number
   tickInterval: NodeJS.Timeout | undefined
   combatManager: CombatManager
   tick: () => void
   stop: () => void
-  start: (options: { duration: number }) => void
+  start: (options: WorkoutConfig) => void
 }
