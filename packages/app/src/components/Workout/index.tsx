@@ -3,7 +3,7 @@ import { Button, Card, TextInput } from 'react-native-paper'
 import Constants from 'expo-constants'
 import { AppConfig, RobotState } from '../../types'
 import { View, StyleSheet } from 'react-native'
-
+import { useTranslation } from 'react-i18next'
 import { PublishCommand } from '@aws-sdk/client-sns'
 import { snsClient } from '../../messaging/sns'
 import { useEvent } from '../../messaging/eventContext'
@@ -20,6 +20,7 @@ export const Workout: FunctionComponent = () => {
   const [duration, setDuration] = useState('30')
   const [difficulty, setDifficulty] = useState('10')
   const { robotState } = useEvent()
+  const { t } = useTranslation()
 
   const startWorkoutCommand = new PublishCommand({
     Message: JSON.stringify({
@@ -30,19 +31,19 @@ export const Workout: FunctionComponent = () => {
   })
   return (
     <Card style={styles.card}>
-      <Card.Title title="Start a workout" />
+      <Card.Title title={t('workout.title')} />
       <Card.Content>
         <View style={styles.list}>
           <View style={styles.item}>
             <TextInput
-              label="Duration (in mins)"
+              label={t('workout.duration.label')}
               value={duration}
               onChangeText={(text) => setDuration(text)}
             />
           </View>
           <View style={styles.item}>
             <TextInput
-              label="Difficulty (0-10)"
+              label={t('workout.difficulty.label')}
               value={difficulty}
               onChangeText={(text) => setDifficulty(text)}
             />
@@ -56,7 +57,7 @@ export const Workout: FunctionComponent = () => {
               mode="contained"
               disabled={robotState === RobotState.busy}
             >
-              Start workout
+              {t('workout.start')}
             </Button>
           </View>
           <View style={styles.item}>
@@ -71,7 +72,7 @@ export const Workout: FunctionComponent = () => {
               }
               mode="contained"
             >
-              Stop workout
+              {t('workout.stop')}
             </Button>
           </View>
         </View>

@@ -9,6 +9,7 @@ import { snsClient } from '../../messaging/sns'
 
 const config = Constants as unknown as AppConfig
 const { topicForAppToPostToArn } = config.manifest.extra
+import { useTranslation } from 'react-i18next'
 
 // some commands to represent the servos for now
 const commands = [
@@ -31,9 +32,10 @@ const commands = [
 ]
 
 export const BashArms: FunctionComponent = () => {
+  const { t } = useTranslation()
   return (
     <Card style={styles.card}>
-      <Card.Title title="Bash the arms" />
+      <Card.Title title={t('remote.control_the_arms')} />
       <Card.Content>
         <View style={styles.list}>
           <View style={styles.inner}>
