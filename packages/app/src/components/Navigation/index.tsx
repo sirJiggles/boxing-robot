@@ -22,6 +22,7 @@ export const Navigation: FunctionComponent = () => {
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}
+      shifting
     />
   )
 }

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Button, Card, TextInput } from 'react-native-paper'
+import { Button, Card, TextInput, Text } from 'react-native-paper'
 import Constants from 'expo-constants'
 import { AppConfig, RobotState } from '../../types'
 import { View, StyleSheet } from 'react-native'
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { PublishCommand } from '@aws-sdk/client-sns'
 import { snsClient } from '../../messaging/sns'
 import { useEvent } from '../../messaging/eventContext'
+import MultiSlider from '@ptomasroos/react-native-multi-slider'
 
 const config = Constants as unknown as AppConfig
 const { topicForAppToPostToArn } = config.manifest.extra
@@ -47,6 +48,17 @@ export const Workout: FunctionComponent = () => {
               value={difficulty}
               onChangeText={(text) => setDifficulty(text)}
             />
+          </View>
+          <View style={styles.item}>
+            <TextInput
+              label={t('workout.pause_duration.label')}
+              value={difficulty}
+              onChangeText={(text) => setDifficulty(text)}
+            />
+            <MultiSlider min={0} max={10}  />
+            <Text>
+              {t('workout.pause_duration.description')}
+            </Text>
           </View>
           <View style={styles.item}>
             <Button
