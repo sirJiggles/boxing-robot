@@ -5,7 +5,6 @@ export const armSpeed = 500
 const outAngle = 180
 const inAngle = 50
 
-
 export const initArms = () => {
   const options = {
     startAt: outAngle,
@@ -16,7 +15,7 @@ export const initArms = () => {
     new Servo({ pin: 'GPIO26', ...options }),
     new Servo({ pin: 'GPIO20', ...options }),
   ]
-  // calabrate the servos
+  // calibrate the servos
   arms.forEach((arm) => arm.stop())
   return arms
 }
@@ -27,7 +26,17 @@ export const armsOut = async () => {
   for (const arm of arms) {
     arm.stop()
     await back(index)
-    index ++
+    index++
+  }
+}
+
+// arms back in for the end of the workout
+export const armsIn = async () => {
+  let index = 0
+  for (const arm of arms) {
+    arm.stop()
+    await out(index)
+    index++
   }
 }
 

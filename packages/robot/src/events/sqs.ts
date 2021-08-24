@@ -6,6 +6,7 @@ import {
   ReceiveMessageCommand,
   DeleteMessageCommand,
 } from '@aws-sdk/client-sqs'
+import { WorkoutManager } from '../workout'
 
 export const sqsClient = new SQSClient({
   region,
@@ -34,15 +35,16 @@ const deleteMessageFromBotQueue = async (handle: string) => {
 }
 
 export const checkForMessage = async (
-  onMessage: (message: string) => void,
-  onError: () => void
+  onMessage: (message: string, workoutManager: WorkoutManager) => void,
+  onError: () => void,
+  workoutManager: WorkoutManager
 ) => {
   try {
     const response = await hitTheRobotForMessages()
     const { Messages } = response
     // if we got back no message in the response start to poll again
     if (!Messages?.length) {
-      checkForMessage(onMessage, onError)
+      checkForMessage(onMessage, onError, workoutManager)
       return
     }
     for (const message of Messages) {
@@ -53,13 +55,13 @@ export const checkForMessage = async (
         throw new Error('there was no body or handle')
       }
       const { Message } = JSON.parse(Body)
-      onMessage(Message)
+      onMessage(Message, workoutManager)
 
       // remove the message
       await deleteMessageFromBotQueue(ReceiptHandle)
 
       // open the long poll again
-      checkForMessage(onMessage, onError)
+      checkForMessage(onMessage, onError, workoutManager)
     }
   } catch (err) {
     onError()

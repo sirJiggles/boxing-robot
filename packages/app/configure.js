@@ -1,5 +1,6 @@
-import { execSync } from 'child_process'
-import fs from 'fs'
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { execSync } = require('child_process')
+const fs = require('fs')
 
 const stack = process.env.STACK || 'dev'
 

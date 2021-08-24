@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['@boxingrobot/eslint-config'],
+  extends: ['@boxing-robot/eslint-config'],
 }

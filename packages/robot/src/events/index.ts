@@ -1,7 +1,6 @@
 import { PublishCommand } from '@aws-sdk/client-sns'
-import { doHit } from '../combat'
 import { WorkoutConfig, Message, Config } from '../types'
-import { start, stop } from '../workout'
+import { WorkoutManager } from '../workout'
 import { snsClient } from './sns'
 import { checkForMessage } from './sqs'
 
@@ -9,23 +8,23 @@ const { topicForRobotToPostToArn } = process.env as Config
 
 // @TODO we need better handling of the mixed type of messages
 // if his gets more complex
-const onMessage = (message: string) => {
+const onMessage = (message: string, workoutManager: WorkoutManager) => {
   const messageAsNumber = parseInt(message)
 
   // if we can convert the message to a number, it is an instruction to move an arm
   if (messageAsNumber) {
-    doHit(messageAsNumber)
+    workoutManager.combatManager.doHit({ arm: messageAsNumber })
     return
   }
 
   if (message === Message.stopWorkout) {
-    stop()
+    workoutManager.stop()
     return
   }
 
   // if we are here it was a start workout command
   const workoutConfig = JSON.parse(message) as WorkoutConfig
-  start(workoutConfig.duration)
+  workoutManager.start(workoutConfig)
 }
 
 // just stop all the things on error
@@ -35,7 +34,9 @@ export const onError = () => {
 
 // start polling by calling the recursive check for message function
 export const initPolling = () => {
-  checkForMessage(onMessage, onError)
+  // the instance of the workout manager we will pass about as a dep
+  const workoutManager = new WorkoutManager()
+  checkForMessage(onMessage, onError, workoutManager)
 }
 
 export const sendMessage = async (message: Message) => {
