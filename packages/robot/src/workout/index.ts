@@ -36,6 +36,8 @@ export class WorkoutManager implements IWorkoutManager {
   }
 
   stop() {
+    // let everyone know the bot is again free
+    sendMessage(Message.ready)
     console.log('workout stopped')
     if (this.tickInterval) {
       clearInterval(this.tickInterval)
@@ -43,12 +45,13 @@ export class WorkoutManager implements IWorkoutManager {
     this.running = false
     this.config = undefined
     this.combatManager.stopHits()
-    // let everyone know the bot is again free
-    sendMessage(Message.ready)
   }
 
   start(config: WorkoutConfig) {
     console.log('workout started')
+    // let everyone know the bot is busy
+    sendMessage(Message.busy)
+
     armsOut()
     this.running = true
     // store the config for the workout
@@ -61,7 +64,5 @@ export class WorkoutManager implements IWorkoutManager {
     // start the ticker for the workout, every second
     // the bind this is needed as tick references this class instance
     this.tickInterval = setInterval(this.tick.bind(this), 1000)
-    // let everyone know the bot is busy
-    sendMessage(Message.busy)
   }
 }

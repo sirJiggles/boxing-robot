@@ -40,8 +40,6 @@ export class CombatManager implements ICombatManager {
       out(number)
       this.armsOut[number] = true
 
-      console.log(this.config)
-
       // for every increment of the difficulty we shave off 20ms of the speed
       // of the arms from calling out the next arm
       const difficultyBasedSpeed = this.config?.difficulty
@@ -105,13 +103,6 @@ export class CombatManager implements ICombatManager {
       const { pauseDuration } = config
       nextComboFrom = pauseDuration >= 1 ? pauseDuration - 1 : pauseDuration
       nextComboTo = pauseDuration + 1
-      console.log('there is no pause duration and the value is')
-      console.log(
-        'next combo from',
-        nextComboFrom,
-        'next combo to',
-        nextComboTo
-      )
     }
     const startComboTime = randomIntFromInterval(nextComboFrom, nextComboTo)
 

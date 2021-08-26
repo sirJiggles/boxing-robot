@@ -40,7 +40,6 @@ export const initPolling = () => {
 }
 
 export const sendMessage = async (message: Message) => {
-  console.log(`should be sending ${message}`)
   await snsClient.send(
     new PublishCommand({
       Message: message,
