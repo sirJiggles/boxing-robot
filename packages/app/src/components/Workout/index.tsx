@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Button, Card } from 'react-native-paper'
 import Constants from 'expo-constants'
-import { AppConfig, RobotState } from '../../types'
+import { AppConfig } from '../../types'
 import { View, StyleSheet } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { PublishCommand } from '@aws-sdk/client-sns'
 import { snsClient } from '../../messaging/sns'
-import { useEvent } from '../../messaging/eventContext'
 import { RangeInput } from './RangeInput'
 
 const config = Constants as unknown as AppConfig
@@ -22,7 +21,6 @@ export const Workout: FunctionComponent = () => {
   const [difficulty, setDifficulty] = useState(10)
   const [pauseDuration, setPauseDuration] = useState(5)
   const [width, setWidth] = useState(0)
-  const { robotState } = useEvent()
 
   const { t } = useTranslation()
 
@@ -95,11 +93,7 @@ export const Workout: FunctionComponent = () => {
                 onPress={async () => {
                   await snsClient.send(stopWorkoutCommand)
                 }}
-                disabled={
-                  robotState === RobotState.ready ||
-                  robotState === RobotState.starting
-                }
-                mode="contained"
+                mode="outlined"
               >
                 {t('workout.stop')}
               </Button>
