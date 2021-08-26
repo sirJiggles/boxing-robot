@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Button, Headline } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 import Constants from 'expo-constants'
 import { AppConfig } from '../../types'
 import { View, StyleSheet, Image } from 'react-native'
@@ -9,7 +9,6 @@ import { snsClient } from '../../messaging/sns'
 
 const config = Constants as unknown as AppConfig
 const { topicForAppToPostToArn } = config.manifest.extra
-import { useTranslation } from 'react-i18next'
 
 // some commands to represent the servos for now
 const commands = [
@@ -32,36 +31,31 @@ const commands = [
 ]
 
 export const Remote: FunctionComponent = () => {
-  const { t } = useTranslation()
   return (
-    <View>
-      <Headline>{t('remote.control_the_arms')}</Headline>
-
-      <View style={styles.list}>
-        <View style={styles.inner}>
-          <Image
-            source={require('../../../assets/images/bob.png')}
-            style={styles.bobImage}
-            resizeMode="contain"
-          />
-          {commands.map((command, index) => {
-            return (
-              // @ts-ignore
-              <View style={styles[`button${index}`]} key={`command${index}`}>
-                <Button
-                  contentStyle={styles.buttonContent}
-                  onPress={async () => {
-                    const data = await snsClient.send(command)
-                    console.log(data)
-                  }}
-                  mode="contained"
-                >
-                  {index + 1}
-                </Button>
-              </View>
-            )
-          })}
-        </View>
+    <View style={styles.list}>
+      <View style={styles.inner}>
+        <Image
+          source={require('../../../assets/images/bob.png')}
+          style={styles.bobImage}
+          resizeMode="contain"
+        />
+        {commands.map((command, index) => {
+          return (
+            // @ts-ignore
+            <View style={styles[`button${index}`]} key={`command${index}`}>
+              <Button
+                contentStyle={styles.buttonContent}
+                onPress={async () => {
+                  const data = await snsClient.send(command)
+                  console.log(data)
+                }}
+                mode="contained"
+              >
+                {index + 1}
+              </Button>
+            </View>
+          )
+        })}
       </View>
     </View>
   )

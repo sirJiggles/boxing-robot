@@ -38,6 +38,12 @@ export const Select: FunctionComponent<SelectArgs> = ({
         selectedStyle={{
           backgroundColor: theme.colors.primary,
         }}
+        markerStyle={{
+          backgroundColor: theme.colors.accent,
+          width: 30,
+          height: 30,
+          borderRadius: 30,
+        }}
         enableLabel
         allowOverlap
         sliderLength={width - 40}
