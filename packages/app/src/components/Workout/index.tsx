@@ -84,7 +84,6 @@ export const Workout: FunctionComponent = () => {
                   await snsClient.send(startWorkoutCommand)
                 }}
                 mode="contained"
-                disabled={robotState === RobotState.busy}
               >
                 {t('workout.start')}
               </Button>

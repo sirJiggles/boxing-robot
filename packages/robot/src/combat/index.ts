@@ -40,6 +40,8 @@ export class CombatManager implements ICombatManager {
       out(number)
       this.armsOut[number] = true
 
+      console.log(this.config)
+
       // for every increment of the difficulty we shave off 20ms of the speed
       // of the arms from calling out the next arm
       const difficultyBasedSpeed = this.config?.difficulty
