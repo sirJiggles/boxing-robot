@@ -117,9 +117,10 @@ describe('Unit | combat', () => {
         pauseDuration: 0,
       }
       manager.doCombo()
-      await new Promise((r) => setTimeout(r, 1))
+      await new Promise((r) => setTimeout(r, 1000))
       expect(manager.processingCombo).toEqual(true)
       expect(manager.startCombo).toHaveBeenCalledTimes(1)
+      manager.stopHits()
     })
   })
 
@@ -135,8 +136,9 @@ describe('Unit | combat', () => {
       // mock start combo, so it also does not reset the processing combo flag
       manager.startCombo = jest.fn()
       const time = manager.doCombo()
-      await new Promise((r) => setTimeout(r, 1))
-      expect(time).toBeLessThanOrEqual(2)
+      await new Promise((r) => setTimeout(r, 1000))
+      expect(time).toBeLessThanOrEqual(2000)
+      manager.stopHits()
     })
     it('should have more of a pause with a lower value', async () => {
       const manager = new CombatManager()
@@ -150,8 +152,9 @@ describe('Unit | combat', () => {
       manager.startCombo = jest.fn()
       const time = manager.doCombo()
       await new Promise((r) => setTimeout(r, 1))
-      expect(time).toBeGreaterThanOrEqual(3)
-      expect(time).toBeLessThanOrEqual(5)
+      expect(time).toBeGreaterThanOrEqual(3000)
+      expect(time).toBeLessThanOrEqual(5000)
+      manager.stopHits()
     })
   })
   describe('difficulty based hit speed in a combo', () => {
