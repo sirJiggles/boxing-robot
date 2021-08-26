@@ -116,7 +116,10 @@ export class CombatManager implements ICombatManager {
     const startComboTime = randomIntFromInterval(nextComboFrom, nextComboTo)
 
     // do the next combo between x and y seconds from now if not already doing one
-    this.comboTimeout = setTimeout(this.startCombo.bind(this), startComboTime)
+    this.comboTimeout = setTimeout(
+      this.startCombo.bind(this),
+      startComboTime * 1000
+    )
 
     // so we can test the timing of the function :D
     return startComboTime

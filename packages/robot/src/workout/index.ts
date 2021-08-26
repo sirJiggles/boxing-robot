@@ -1,6 +1,6 @@
 import { CombatManager } from '../combat'
 import { sendMessage } from '../events'
-import { armsOut, armsIn } from '../servo'
+import { armsOut } from '../servo'
 import { IWorkoutManager, Message, WorkoutConfig } from '../types'
 
 // given the state the workout manager needs to keep hold of a class seems to make
@@ -43,7 +43,6 @@ export class WorkoutManager implements IWorkoutManager {
     this.running = false
     this.config = undefined
     this.combatManager.stopHits()
-    armsIn()
     // let everyone know the bot is again free
     sendMessage(Message.ready)
   }

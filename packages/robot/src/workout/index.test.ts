@@ -1,5 +1,5 @@
 import { sendMessage } from '../events'
-import { armsOut, armsIn } from '../servo'
+import { armsOut } from '../servo'
 import { Message } from '../types'
 import { WorkoutManager } from './'
 
@@ -78,7 +78,6 @@ describe('UNIT | workout', () => {
     const manager = new WorkoutManager()
     manager.start({ duration: 0.01, difficulty: 5, pauseDuration: 3 })
     manager.stop()
-    expect(armsIn).toBeCalledTimes(1)
   })
 
   it('should stop hits on stop', () => {
