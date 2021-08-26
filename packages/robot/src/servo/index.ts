@@ -1,7 +1,7 @@
 import { Servo } from 'johnny-five'
 
 let arms: Servo[] = []
-export const armSpeed = 1000
+export const armSpeed = 700
 const outAngle = 180
 const inAngle = 50
 
