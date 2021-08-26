@@ -26,14 +26,6 @@ export const Workout: FunctionComponent = () => {
 
   const { t } = useTranslation()
 
-  const startWorkoutCommand = new PublishCommand({
-    Message: JSON.stringify({
-      duration,
-      difficulty,
-      pauseDuration,
-    }),
-    TopicArn: topicForAppToPostToArn,
-  })
   return (
     <View
       onLayout={(event) => {
@@ -81,7 +73,16 @@ export const Workout: FunctionComponent = () => {
               <Button
                 contentStyle={styles.buttonContent}
                 onPress={async () => {
-                  await snsClient.send(startWorkoutCommand)
+                  await snsClient.send(
+                    new PublishCommand({
+                      Message: JSON.stringify({
+                        duration,
+                        difficulty,
+                        pauseDuration,
+                      }),
+                      TopicArn: topicForAppToPostToArn,
+                    })
+                  )
                 }}
                 mode="contained"
               >

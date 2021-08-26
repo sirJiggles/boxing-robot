@@ -105,6 +105,13 @@ export class CombatManager implements ICombatManager {
       const { pauseDuration } = config
       nextComboFrom = pauseDuration >= 1 ? pauseDuration - 1 : pauseDuration
       nextComboTo = pauseDuration + 1
+      console.log('there is no pause duration and the value is')
+      console.log(
+        'next combo from',
+        nextComboFrom,
+        'next combo to',
+        nextComboTo
+      )
     }
     const startComboTime = randomIntFromInterval(nextComboFrom, nextComboTo)
 
