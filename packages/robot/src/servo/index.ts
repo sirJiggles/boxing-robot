@@ -46,7 +46,7 @@ export const back = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  if (arm === 1 || arm == 3) {
+  if (arm === 2 || arm == 4) {
     servo.to(outAngle)
   } else {
     servo.to(inAngle)
@@ -59,9 +59,9 @@ export const out = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  if (arm === 1 || arm == 3) {
-    servo.to(arm == 1 ? inAngle - 30 : inAngle)
+  if (arm === 2 || arm == 4) {
+    servo.to(arm == 2 ? inAngle - 30 : inAngle)
   } else {
-    servo.to(arm == 2 ? outAngle - 30 : outAngle)
+    servo.to(arm == 1 ? outAngle - 30 : outAngle)
   }
 }
