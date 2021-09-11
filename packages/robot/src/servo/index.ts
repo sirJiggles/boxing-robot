@@ -22,6 +22,7 @@ export const initArms = () => {
 
 // move all the arms back but stagger it to not get a surge
 export const armsOut = async () => {
+  return
   let index = 0
   for (const arm of arms) {
     arm.stop()
@@ -32,6 +33,7 @@ export const armsOut = async () => {
 
 // arms back in for the end of the workout
 export const armsIn = async () => {
+  return
   let index = 0
   for (const arm of arms) {
     arm.stop()
