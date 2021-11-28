@@ -1,19 +1,27 @@
 import { Servo } from 'johnny-five'
 
 let arms: Servo[] = []
-export const armSpeed = 750
-const outAngle = 180
-const inAngle = 50
+export const armSpeed = 300
+
+// in and outs for each arm
+// all right now have the same diff of deg change
+const armDegreesOut = [100, 90, 100, 80]
+const armDegreesHit = [60, 130, 60, 120]
 
 export const initArms = () => {
-  const options = {
-    startAt: outAngle,
-  }
   arms = [
-    new Servo({ pin: 'GPIO19', ...options }),
-    new Servo({ pin: 'GPIO16', ...options }),
-    new Servo({ pin: 'GPIO26', ...options }),
-    new Servo({ pin: 'GPIO20', ...options }),
+    new Servo({ pin: 'GPIO19', 
+      startAt: armDegreesOut[0]
+    }),
+    new Servo({ pin: 'GPIO16', 
+      startAt: armDegreesOut[1]
+    }),
+    new Servo({ pin: 'GPIO26', 
+      startAt: armDegreesOut[2]
+    }),
+    new Servo({ pin: 'GPIO20', 
+      startAt: armDegreesOut[3]
+    }),
   ]
   // calibrate the servos
   arms.forEach((arm) => arm.stop())
@@ -48,11 +56,7 @@ export const back = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  if (arm == 2) {
-    servo.to(outAngle)
-  } else {
-    servo.to(inAngle)
-  }
+  servo.to(armDegreesOut[arm])
 }
 
 export const out = (arm: number) => {
@@ -61,9 +65,5 @@ export const out = (arm: number) => {
   if (servo.isMoving) {
     servo.stop()
   }
-  if (arm == 2) {
-    servo.to(inAngle)
-  } else {
-    servo.to(arm === 1 || arm === 0 ? outAngle - 30 : outAngle)
-  }
+  servo.to(armDegreesHit[arm])
 }
