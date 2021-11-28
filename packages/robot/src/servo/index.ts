@@ -1,7 +1,11 @@
 import { Servo } from 'johnny-five'
 
 let arms: Servo[] = []
-export const armSpeed = 300
+// 500 is the arm speed as for every increment of difficulty 
+// we shave of 20ms and there are ten max difficulty
+// so we can go as fast as 300 when it is 500 as 200ms can be taken
+// off by making it go faster in the settings
+export const armSpeed = 500
 
 // in and outs for each arm
 // all right now have the same diff of deg change
@@ -26,28 +30,6 @@ export const initArms = () => {
   // calibrate the servos
   arms.forEach((arm) => arm.stop())
   return arms
-}
-
-// move all the arms back but stagger it to not get a surge
-export const armsOut = async () => {
-  return
-  let index = 0
-  for (const arm of arms) {
-    arm.stop()
-    await back(index)
-    index++
-  }
-}
-
-// arms back in for the end of the workout
-export const armsIn = async () => {
-  return
-  let index = 0
-  for (const arm of arms) {
-    arm.stop()
-    await out(index)
-    index++
-  }
 }
 
 export const back = (arm: number) => {
