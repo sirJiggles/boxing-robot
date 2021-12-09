@@ -1,5 +1,4 @@
 import { sendMessage } from '../events'
-import { armsOut } from '../servo'
 import { Message } from '../types'
 import { WorkoutManager } from './'
 
@@ -64,13 +63,6 @@ describe('UNIT | workout', () => {
     const manager = new WorkoutManager()
     manager.start({ duration: 0.01, difficulty: 5, pauseDuration: 3 })
     expect(sendMessage).toBeCalledWith(Message.busy)
-    manager.stop()
-  })
-
-  it('should call arms out on start', () => {
-    const manager = new WorkoutManager()
-    manager.start({ duration: 0.01, difficulty: 5, pauseDuration: 3 })
-    expect(armsOut).toBeCalledTimes(1)
     manager.stop()
   })
 
