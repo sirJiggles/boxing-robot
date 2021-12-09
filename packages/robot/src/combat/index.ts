@@ -19,9 +19,11 @@ export class CombatManager implements ICombatManager {
     // based on the config, it could be that some of the arms are inactive
     // so we go through all the combos and make sure that we only do the ones
     // where the arms are enabled
-    this.combos = combos.map((combo) =>
-      combo.filter((hit) => this.config.armsEnabled?.includes(hit))
-    ).filter(String)
+    this.combos = combos
+      .map((combo) =>
+        combo.filter((hit) => this.config.armsEnabled?.includes(hit))
+      )
+      .filter(String)
   }
 
   // function to do a single hit
@@ -50,20 +52,20 @@ export class CombatManager implements ICombatManager {
         return
       }
 
-      let speed = armSpeed
+      // by default lets go somewhere in the middle for speed
+      // 20 * 5 is 100
+      let speed = armSpeed + 100
 
       if (this.config.difficulty) {
-        // max is ten so if the value is 10 there is no multipler
-        // for how much slower we make it, as it is alredy the fastest
-        const multipler = 10 - this.config.difficulty
-        speed = armSpeed + (20 * multipler)
+        // max is ten so if the value is 10 there is no multiplier
+        // for how much slower we make it, as it is already the fastest
+        const multiplier = 10 - this.config.difficulty
+        speed = armSpeed + 20 * multiplier
       }
-
 
       out(number, speed)
       this.armsOut[number] = true
 
-      
       setTimeout(() => {
         back(number, speed)
         // if we are in a combo and the next arm is not the same as the one

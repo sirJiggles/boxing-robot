@@ -53,7 +53,7 @@ describe('Unit | combat', () => {
       manager.processingCombo = true
       const p = manager.doHit({ arm: 1, nextArm: 2, asCombo: true })
       // pause for the time it takes to get the arm our
-      await new Promise((r) => setTimeout(r, armSpeed))
+      await new Promise((r) => setTimeout(r, armSpeed + 200))
       // the promise p should be resolved by now
       expect(util.inspect(p).includes('pending')).toBeFalsy()
     })
@@ -63,7 +63,7 @@ describe('Unit | combat', () => {
       manager.processingCombo = true
       const p = manager.doHit({ arm: 1, nextArm: 1, asCombo: true })
       // pause for the time it takes to get the arm our
-      await new Promise((r) => setTimeout(r, armSpeed))
+      await new Promise((r) => setTimeout(r, armSpeed + 200))
       // the promise p should still be pending as we are also coming back now
       expect(util.inspect(p).includes('pending')).toBeTruthy()
     })
@@ -73,7 +73,7 @@ describe('Unit | combat', () => {
       manager.processingCombo = true
       const p = manager.doHit({ arm: 1, nextArm: 1, asCombo: true })
       // pause for the time it takes to get the arm our
-      await new Promise((r) => setTimeout(r, armSpeed * 2 + 100))
+      await new Promise((r) => setTimeout(r, (armSpeed + 300) * 2))
       // the promise p should no longer be pending as we are also coming back now
       expect(util.inspect(p).includes('pending')).toBeFalsy()
     })
@@ -166,8 +166,7 @@ describe('Unit | combat', () => {
       })
       manager.processingCombo = true
       const p = manager.doHit({ arm: 1, nextArm: 2, asCombo: true })
-      // pause for arm speed - 20 * 9 as we remove 20ms for every
-      await new Promise((r) => setTimeout(r, armSpeed - 20 * 9))
+      await new Promise((r) => setTimeout(r, armSpeed + 20 + 100))
       // the promise p should be resolved by now
       expect(util.inspect(p).includes('pending')).toBeFalsy()
     })
@@ -181,8 +180,8 @@ describe('Unit | combat', () => {
       })
       manager.processingCombo = true
       const p = manager.doHit({ arm: 1, nextArm: 2, asCombo: true })
-      // pause for arm speed - 20 * 9 as we remove 20ms for every
-      await new Promise((r) => setTimeout(r, armSpeed))
+      const multiplier = 10 - (manager.config?.difficulty || 0)
+      await new Promise((r) => setTimeout(r, armSpeed + 20 * multiplier))
       // the promise p should be resolved by now
       expect(util.inspect(p).includes('pending')).toBeFalsy()
     })
