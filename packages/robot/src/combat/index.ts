@@ -21,7 +21,7 @@ export class CombatManager implements ICombatManager {
     // where the arms are enabled
     this.combos = combos.map((combo) =>
       combo.filter((hit) => this.config.armsEnabled?.includes(hit))
-    )
+    ).filter(String)
   }
 
   // function to do a single hit

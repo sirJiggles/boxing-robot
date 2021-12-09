@@ -36,11 +36,11 @@ const onMessage = (message: string) => {
     return
   }
 
-  if (!workoutManager) {
-    // if we are here it was a start workout command
-    const workoutConfig = JSON.parse(message) as WorkoutConfig
-    workoutManager = new WorkoutManager(workoutConfig)
-  }
+
+  // if we are here it was a start workout command
+  const workoutConfig = JSON.parse(message) as WorkoutConfig
+  workoutManager = new WorkoutManager(workoutConfig)
+  
 
   // last case it must be a call to start the workout
   workoutManager.start()
