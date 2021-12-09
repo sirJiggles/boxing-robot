@@ -11,9 +11,11 @@ export type Config = {
 }
 
 export type WorkoutConfig = {
-  duration: number
-  difficulty: number
-  pauseDuration: number
+  duration?: number
+  difficulty?: number
+  pauseDuration?: number
+  // make these optional for now we may want to remove them
+  armsEnabled?: Array<number>
 }
 
 export enum Message {
@@ -21,6 +23,7 @@ export enum Message {
   busy = 'busy',
   ready = 'ready',
   stopWorkout = 'stop',
+  hug = 'hug',
 }
 
 export interface ICombatManager {

@@ -7,10 +7,22 @@ export class CombatManager implements ICombatManager {
   // state for what is out and in, start up all up
   armsOut = [false, false, false, false]
   comboTimeout: NodeJS.Timeout | undefined
-  config: WorkoutConfig | undefined
+  config: WorkoutConfig
+  combos: number[][] = []
 
   // state to let people know, we are working on a combo
   processingCombo = false
+
+  constructor(config: WorkoutConfig) {
+    this.config = config
+
+    // based on the config, it could be that some of the arms are inactive
+    // so we go through all the combos and make sure that we only do the ones
+    // where the arms are enabled
+    this.combos = combos.map((combo) =>
+      combo.filter((hit) => this.config.armsEnabled?.includes(hit))
+    )
+  }
 
   // function to do a single hit
   doHit = async ({
@@ -45,7 +57,6 @@ export class CombatManager implements ICombatManager {
       const difficultyBasedSpeed = this.config?.difficulty
         ? armSpeed - 20 * this.config.difficulty
         : armSpeed
-
       setTimeout(() => {
         back(number)
         // if we are in a combo and the next arm is not the same as the one
@@ -75,7 +86,8 @@ export class CombatManager implements ICombatManager {
 
   startCombo = async () => {
     // pick a combo to do
-    const combo = combos[Math.floor(Math.random() * combos.length)]
+    const combo = this.combos[Math.floor(Math.random() * this.combos.length)]
+
     let nextIndex = 0
 
     for (const move of combo) {
@@ -104,6 +116,7 @@ export class CombatManager implements ICombatManager {
       nextComboFrom = pauseDuration >= 1 ? pauseDuration - 1 : pauseDuration
       nextComboTo = pauseDuration + 1
     }
+
     const startComboTime =
       randomIntFromInterval(nextComboFrom, nextComboTo) * 1000
 

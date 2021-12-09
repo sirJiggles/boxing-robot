@@ -103,10 +103,12 @@ export const Workout: FunctionComponent = () => {
                         duration,
                         difficulty,
                         pauseDuration,
-                        armOne,
-                        armTwo,
-                        armThree,
-                        armFour,
+                        armsEnabled: [
+                          armOne && 1,
+                          armTwo && 2,
+                          armThree && 3,
+                          armFour && 4,
+                        ],
                       }),
                       TopicArn: topicForAppToPostToArn,
                     })

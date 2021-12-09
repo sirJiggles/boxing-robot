@@ -7,19 +7,20 @@ import { IWorkoutManager, Message, WorkoutConfig } from '../types'
 // locked in
 export class WorkoutManager implements IWorkoutManager {
   running = false
-  config: WorkoutConfig | undefined
+  config: WorkoutConfig
   timeSpentWorkingOut = 0
   tickInterval: NodeJS.Timeout | undefined
   combatManager: CombatManager
 
-  constructor() {
+  constructor(config: WorkoutConfig) {
+    this.config = config
     // each instance of a workout manager should have a combat manager
-    this.combatManager = new CombatManager()
+    this.combatManager = new CombatManager(this.config)
   }
 
   tick() {
     // just bail if not running, means we were already stopped
-    if (!this.running || !this.config) {
+    if (!this.running || !this.config.duration) {
       return
     }
     if (this.config.duration * 60 > this.timeSpentWorkingOut) {
@@ -42,20 +43,15 @@ export class WorkoutManager implements IWorkoutManager {
       clearInterval(this.tickInterval)
     }
     this.running = false
-    this.config = undefined
     this.combatManager.stopHits()
   }
 
-  start(config: WorkoutConfig) {
+  start() {
     console.log('workout started')
     // let everyone know the bot is busy
     sendMessage(Message.busy)
-    
+
     this.running = true
-    // store the config for the workout
-    this.config = config
-    // set the config also on the combat manager instance as they need it too
-    this.combatManager.config = config
 
     // do the first tick call
     this.tick()

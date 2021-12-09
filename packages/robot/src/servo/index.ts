@@ -41,3 +41,12 @@ export const out = (arm: number) => {
   }
   servo.to(armDegreesHit[arm])
 }
+
+export const armsIn = async () => {
+  let index = 0
+  for (const arm of arms) {
+    arm.stop()
+    await out(index)
+    index++
+  }
+}
