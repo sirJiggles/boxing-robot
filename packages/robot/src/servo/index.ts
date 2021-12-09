@@ -5,12 +5,12 @@ let arms: Servo[] = []
 // we shave of 20ms and there are ten max difficulty
 // so we can go as fast as 300 when it is 500 as 200ms can be taken
 // off by making it go faster in the settings
-export const armSpeed = 500
+export const armSpeed = 580
 
 // in and outs for each arm
 // all right now have the same diff of deg change
 const armDegreesOut = [100, 90, 100, 80]
-const armDegreesHit = [60, 130, 60, 120]
+const armDegreesHit = [50, 140, 40, 120]
 
 export const initArms = () => {
   arms = [
@@ -24,29 +24,29 @@ export const initArms = () => {
   return arms
 }
 
-export const back = (arm: number) => {
+export const back = (arm: number, speed: number) => {
   console.log(`arm ${arm} back`)
   const servo = arms[arm]
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(armDegreesOut[arm])
+  servo.to(armDegreesOut[arm], speed)
 }
 
-export const out = (arm: number) => {
+export const out = (arm: number, speed: number) => {
   console.log(`arm ${arm} extend`)
   const servo = arms[arm]
   if (servo.isMoving) {
     servo.stop()
   }
-  servo.to(armDegreesHit[arm])
+  servo.to(armDegreesHit[arm], speed)
 }
 
 export const armsIn = async () => {
   let index = 0
   for (const arm of arms) {
     arm.stop()
-    await out(index)
+    await out(index, 500)
     index++
   }
 }
