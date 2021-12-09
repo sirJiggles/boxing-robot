@@ -10,7 +10,7 @@ export const armSpeed = 580
 // in and outs for each arm
 // all right now have the same diff of deg change
 const armDegreesOut = [100, 90, 100, 80]
-const armDegreesHit = [50, 140, 40, 120]
+const armDegreesHit = [40, 130, 55, 120]
 
 export const initArms = () => {
   arms = [
