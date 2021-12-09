@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Button, Card } from 'react-native-paper'
+import { Button, Card, Checkbox } from 'react-native-paper'
 import Constants from 'expo-constants'
 import { AppConfig } from '../../types'
 import { View, StyleSheet } from 'react-native'
@@ -21,6 +21,10 @@ export const Workout: FunctionComponent = () => {
   const [difficulty, setDifficulty] = useState(10)
   const [pauseDuration, setPauseDuration] = useState(5)
   const [width, setWidth] = useState(0)
+  const [armOne, setArmOne] = useState(true)
+  const [armTwo, setArmTwo] = useState(true)
+  const [armThree, setArmThree] = useState(true)
+  const [armFour, setArmFour] = useState(true)
 
   const { t } = useTranslation()
 
@@ -68,6 +72,28 @@ export const Workout: FunctionComponent = () => {
               />
             </View>
             <View style={styles.item}>
+              <Checkbox.Item
+                label={`${t('workout.arms.enable')}: 1`}
+                onPress={() => setArmOne(!armOne)}
+                status={armOne ? 'checked' : 'unchecked'}
+              />
+              <Checkbox.Item
+                label={`${t('workout.arms.enable')}: 2`}
+                onPress={() => setArmTwo(!armTwo)}
+                status={armTwo ? 'checked' : 'unchecked'}
+              />
+              <Checkbox.Item
+                label={`${t('workout.arms.enable')}: 3`}
+                onPress={() => setArmThree(!armThree)}
+                status={armThree ? 'checked' : 'unchecked'}
+              />
+              <Checkbox.Item
+                label={`${t('workout.arms.enable')}: 4`}
+                onPress={() => setArmFour(!armFour)}
+                status={armFour ? 'checked' : 'unchecked'}
+              />
+            </View>
+            <View style={styles.item}>
               <Button
                 contentStyle={styles.buttonContent}
                 onPress={async () => {
@@ -77,6 +103,10 @@ export const Workout: FunctionComponent = () => {
                         duration,
                         difficulty,
                         pauseDuration,
+                        armOne,
+                        armTwo,
+                        armThree,
+                        armFour,
                       }),
                       TopicArn: topicForAppToPostToArn,
                     })

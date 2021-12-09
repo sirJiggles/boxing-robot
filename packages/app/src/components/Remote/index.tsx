@@ -30,6 +30,11 @@ const commands = [
   }),
 ]
 
+const hugCommand = new PublishCommand({
+  Message: 'hug',
+  TopicArn: topicForAppToPostToArn,
+})
+
 export const Remote: FunctionComponent = () => {
   return (
     <View style={styles.list}>
@@ -56,6 +61,20 @@ export const Remote: FunctionComponent = () => {
             </View>
           )
         })}
+
+        <View style={styles.heart}>
+          <Button
+            icon="heart"
+            onPress={async () => {
+              const data = await snsClient.send(hugCommand)
+              console.log(data)
+            }}
+            contentStyle={styles.buttonContent}
+            mode="contained"
+          >
+            HUG
+          </Button>
+        </View>
       </View>
     </View>
   )
@@ -96,6 +115,11 @@ const styles = StyleSheet.create({
     top: 220,
     right: 0,
     position: 'absolute',
+  },
+  heart: {
+    position: 'absolute',
+    left: 140,
+    top: 290,
   },
   bobImage: {
     width: '100%',

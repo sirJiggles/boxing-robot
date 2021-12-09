@@ -22,6 +22,9 @@ export const en = {
         description:
           'The duration of the pauses (roughly in seconds) between combos. The lower the duration the more fluid the sparring mode',
       },
+      arms: {
+        enable: 'Enable arm',
+      },
       stop: 'Stop workout',
       start: 'Start workout',
     },
