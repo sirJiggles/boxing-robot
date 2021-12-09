@@ -49,18 +49,23 @@ export class CombatManager implements ICombatManager {
         resolve(true)
         return
       }
-      // for every increment of the difficulty we shave off 20ms of the speed
-      // of the arms from calling out the next arm
-      const difficultyBasedSpeed = this.config?.difficulty
-        ? armSpeed - 20 * this.config.difficulty
-        : armSpeed
 
-      out(number, difficultyBasedSpeed)
+      let speed = armSpeed
+
+      if (this.config.difficulty) {
+        // max is ten so if the value is 10 there is no multipler
+        // for how much slower we make it, as it is alredy the fastest
+        const multipler = 10 - this.config.difficulty
+        speed = armSpeed + (20 * multipler)
+      }
+
+
+      out(number, speed)
       this.armsOut[number] = true
 
       
       setTimeout(() => {
-        back(number, difficultyBasedSpeed)
+        back(number, speed)
         // if we are in a combo and the next arm is not the same as the one
         // that just hit already start the next arm
         if (asCombo && nextArm !== arm) {
@@ -72,9 +77,9 @@ export class CombatManager implements ICombatManager {
             // resolve the async func
             resolve(true)
             this.armsOut[number] = false
-          }, difficultyBasedSpeed)
+          }, speed + 100)
         }
-      }, difficultyBasedSpeed)
+      }, speed + 100)
     })
   }
 

@@ -1,16 +1,13 @@
 import { Servo } from 'johnny-five'
 
 let arms: Servo[] = []
-// 500 is the arm speed as for every increment of difficulty
-// we shave of 20ms and there are ten max difficulty
-// so we can go as fast as 300 when it is 500 as 200ms can be taken
-// off by making it go faster in the settings
-export const armSpeed = 580
+// the fastest we want the servo to go
+export const armSpeed = 250
 
 // in and outs for each arm
 // all right now have the same diff of deg change
-const armDegreesOut = [100, 90, 100, 80]
-const armDegreesHit = [40, 130, 55, 120]
+const armDegreesOut = [90, 90, 100, 80]
+const armDegreesHit = [50, 130, 55, 120]
 
 export const initArms = () => {
   arms = [
