@@ -2,7 +2,7 @@ import { Servo } from 'johnny-five'
 
 let arms: Servo[] = []
 // the fastest we want the servo to go
-export const armSpeed = 250
+export const armSpeed = 350
 
 // in and outs for each arm
 // all right now have the same diff of deg change
