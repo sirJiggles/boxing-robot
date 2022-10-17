@@ -38,10 +38,10 @@
   },
   "scripts": {
     "config": "node configure.js",
-    "start": "yarn run config && expo start --clear",
-    "android": "yarn run config && expo start --android --clear",
-    "ios": "yarn run config && expo start --ios --clear",
-    "web": "yarn run config && expo start --web --clear",
+    "start": "npm run config && expo start --clear",
+    "android": "npm run config && expo start --android --clear",
+    "ios": "npm run config && expo start --ios --clear",
+    "web": "npm run config && expo start --web --clear",
     "webBare": "expo start --web --clear",
     "eject": "expo eject",
     "lint": "eslint '**/*.{js,ts,tsx}' --fix"

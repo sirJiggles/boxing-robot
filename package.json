@@ -7,6 +7,7 @@
   "scripts": {
     "lint": "lerna run lint --parallel",
     "test": "lerna run test --parallel",
+    "bootstrap": "lerna bootstrap",
     "bot": "cd packages/robot && yarn start",
     "app": "cd packages/app && yarn start"
   },
